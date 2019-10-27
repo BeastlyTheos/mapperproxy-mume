@@ -463,7 +463,7 @@ class World(object):
 				clockPosition=currentRoom.clockPositionTo(roomObj),
 				distance=currentRoom.manhattanDistance(roomObj),
 				**vars(roomObj)
-			) for roomObj in reversed(results[:20])
+			) for roomObj in results[:8]
 		)
 
 	def fdynamic(self, findFormat, *args):
@@ -481,7 +481,7 @@ class World(object):
 				clockPosition=currentRoom.clockPositionTo(roomObj),
 				distance=currentRoom.manhattanDistance(roomObj),
 				**vars(roomObj)
-			) for roomObj in reversed(results[:20])
+			) for roomObj in results[:8]
 		)
 
 	def flabel(self, findFormat, *args):
@@ -505,7 +505,7 @@ class World(object):
 				clockPosition=currentRoom.clockPositionTo(roomObj),
 				distance=currentRoom.manhattanDistance(roomObj),
 				**vars(roomObj)
-			) for roomObj in reversed(sorted(results, key=lambda r: r.manhattanDistance(currentRoom))[:20])
+			) for roomObj in sorted(results, key=lambda r: r.manhattanDistance(currentRoom))[:8]
 		)
 
 	def fname(self, findFormat, *args):
@@ -523,7 +523,7 @@ class World(object):
 				clockPosition=currentRoom.clockPositionTo(roomObj),
 				distance=currentRoom.manhattanDistance(roomObj),
 				**vars(roomObj)
-			) for roomObj in reversed(results[:20])
+			) for roomObj in results[:8]
 		)
 
 	def fnote(self, findFormat, *args):
@@ -541,7 +541,7 @@ class World(object):
 				clockPosition=currentRoom.clockPositionTo(roomObj),
 				distance=currentRoom.manhattanDistance(roomObj),
 				**vars(roomObj)
-			) for roomObj in reversed(results[:20])
+			) for roomObj in results[:8]
 		)
 
 	def rnote(self, *args):
