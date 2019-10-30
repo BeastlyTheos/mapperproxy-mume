@@ -385,6 +385,11 @@ class Mapper(threading.Thread, World):
 		else:
 			self.output("Cannot return anywhere until the go command has been used at least once.")
 
+	def emulation_command_rname(self, *args):
+		"""changes the room name"""
+		self.emulationRoom.name = args[0]
+		self.output("Room name set to " + args[0])
+
 	def emulation_command_sync(self, *args):
 		"""
 		When emulating while connected to the mud, syncs the emulated location with the in-game location.
