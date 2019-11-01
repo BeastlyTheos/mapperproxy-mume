@@ -277,6 +277,23 @@ class Mapper(threading.Thread, World):
 		self._server.sendall(msg.encode("utf-8").replace(IAC, IAC + IAC) + b"\r\n")
 		return None
 
+	def emulation_command_at(self, *args):
+		"""mimic the /at command that the ainur use."""
+		arg = args[0].split(" ")
+		location = arg[0].strip()
+		if not location:
+			self.output("You must supply a room vnum or a label.")
+			return
+		command = arg[1:] and " ".join(arg[1:])
+		if not command:
+			self.output("What do you want to do at " + location)
+			return
+
+		oldRoom = self.emulationRoom
+		self.emulationRoom = self.getRoomFromLabel(location)[0]
+		self.user_command_emu(command)
+		self.emulationRoom = oldRoom
+
 	def emulation_command_brief(self, *args):
 		"""toggles brief mode."""
 		self.isEmulatingBriefMode = not self.isEmulatingBriefMode
