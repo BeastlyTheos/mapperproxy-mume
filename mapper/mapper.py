@@ -405,7 +405,8 @@ class Mapper(threading.Thread, World):
 		if not userCommand:
 			self.output("What command do you want to emulate?")
 			return
-		# get the full name of the user's command
+
+		# try to expand the user command to the full name of an emulation command
 		for command in DIRECTIONS + self.emulationCommands:
 			if command.startswith(userCommand):
 				if command in DIRECTIONS:
@@ -413,6 +414,7 @@ class Mapper(threading.Thread, World):
 				else:
 					getattr(self, "emulation_command_" + command)(userArgs)
 				return
+		# else try to execute the user command as a regular mapper command
 		if userCommand in self.userCommands:
 			# call the user command
 			# first set current room to the emulation room so the user command acts on the emulation room
@@ -420,8 +422,12 @@ class Mapper(threading.Thread, World):
 			self.currentRoom = self.emulationRoom
 			getattr(self, "user_command_" + userCommand)(userArgs)
 			self.currentRoom = oldRoom
-		elif userCommand:
-			self.output("Invalid command. Type 'help' for more help.")
+		else:
+			room, error = self.getRoomFromLabel(userCommand)
+			if room:
+				self.emulation_command_go(room)
+			else:
+				self.output("Invalid command. Type 'help' for more help.")
 
 	def user_command_gettimer(self, *args):
 		self.clientSend("TIMER:{:d}:TIMER".format(int(default_timer() - self.initTimer)))
