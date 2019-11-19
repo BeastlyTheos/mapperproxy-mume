@@ -49,6 +49,7 @@ class Proxy(threading.Thread):
 		while not self.finished.isSet():
 			try:
 				data = self._client.recv(4096)
+				#print("receiving "+ str(data))
 			except socket.timeout:
 				continue
 			except EnvironmentError:
@@ -64,6 +65,7 @@ class Proxy(threading.Thread):
 				except EnvironmentError:
 					self.close()
 					continue
+		print("end client")
 
 
 class Server(threading.Thread):
@@ -145,6 +147,29 @@ class MockedSocket(object):
 	def sendall(self, *args):
 		pass
 
+class MockClient(object):
+	def connect(self, *args):
+		pass
+
+	def shutdown(self, *args):
+		pass
+
+	def close(self, *args):
+		pass
+
+	def sendall(self, *args):
+		print(str(*args, "ansi"))
+
+	def recv(self, *args):
+		dat = None
+		while not dat:
+			dat = input() + "\r\n"
+			#print("input was "+dat)
+			dat = bytes(dat, "US-ASCII")
+			#print("dat is "+str(dat))
+		return dat
+
+
 
 def main(
 		outputFormat,
@@ -172,15 +197,15 @@ def main(
 			print("Unable to find pyglet. Disabling the GUI")
 			interface = "text"
 	# initialise client connection
-	proxySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	proxySocket.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-	proxySocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-	proxySocket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-	proxySocket.bind((localHost, localPort))
-	proxySocket.listen(1)
+	#proxySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	#proxySocket.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+	#proxySocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	#proxySocket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+	#proxySocket.bind((localHost, localPort))
+	#proxySocket.listen(1)
 	touch(LISTENING_STATUS_FILE)
-	clientConnection, proxyAddress = proxySocket.accept()
-	clientConnection.settimeout(1.0)
+	clientConnection, proxyAddress = MockClient(), None
+	#clientConnection.settimeout(1.0)
 	# initialise server connection
 	if isEmulatingOffline:
 		serverConnection = MockedSocket()
