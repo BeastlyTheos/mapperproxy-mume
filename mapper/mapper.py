@@ -279,7 +279,7 @@ class Mapper(threading.Thread, World):
 		return None
 
 	def emulation_command_at(self, *args):
-		"""mimic the /at command that the ainur use."""
+		"""mimic the /at command that the ainur use. at [room label|room number]"""
 		arg = args[0].split(" ")
 		location = arg[0].strip()
 		if not location:
@@ -315,7 +315,7 @@ class Mapper(threading.Thread, World):
 		self.output("Exits: {}.".format(", ".join(exits)))
 
 	def emulation_command_go(self, label, isJump=True):
-		"""mimic the /go command that the ainur use."""
+		"""mimic the /go command that the ainur use. go [room label|room number]"""
 		room, error = self.getRoomFromLabel(label)
 		if error:
 			self.output(error)
