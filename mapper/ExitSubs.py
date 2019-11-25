@@ -4,6 +4,8 @@
 
 import re
 
-exitRegexp = re.compile(
-	r"^none|[-=~]?[\[(#{/\\]?(?P<dir>north|east|south|west|up|down)[\])#{/\\]?[-=~]?$"
-)
+exitRegexpString =\
+r"(?P<isNone>none)|[-=~]?[\[(#{/\\]?(?P<dir>north|east|south|west|up|down)[\])#{/\\]?[-=~]?"
+
+exitRegexp = re.compile("^" + exitRegexpString + "$")
+autoexitRegexp = re.compile(r"Exits: (?P<exits>(" + exitRegexpString + r"(, )?)+)\.")
