@@ -4,7 +4,7 @@
 
 import unittest
 
-from mapper.ExitSubs import exitRegexp
+from mapper.ExitSubs import autoexitRegexp, exitRegexp
 from mapper.world import DIRECTIONS
 
 
@@ -39,10 +39,11 @@ class TestExitsSubstitution_regexp(unittest.TestCase):
 		]:
 			m = exitRegexp.match(exit)
 			self.assertTrue(m, exit + " did not match the exitRegexp")
-			dir = "none" if m.group(0) == "none" else m.group("dir")
-			self.assertTrue(dir in DIRECTIONS + ["none"], exit + " is not a direction")
+			self.assertTrue(
+				m.group("isNone") or m.group("dir") in DIRECTIONS,
+				exit + " is not a direction nor is it 'none'."
+			)
 
-	@unittest.skip
 	def test_autoexitsRegexp(self):
 		for autoexits in [
 			"Exits: north.",
@@ -55,30 +56,32 @@ class TestExitsSubstitution_regexp(unittest.TestCase):
 			"Exits: ~[east]~.",
 			"Exits: ~(south)~.",
 			"Exits: ~#west#~.",
-			r"Exits: ~/up\~.",
-			r"Exits: ~\down/~.",
+			"Exits: ~/up\\~.",
+			"Exits: ~\\down/~.",
 			"Exits: -north-.",
 			"Exits: -[east]-.",
 			"Exits: -(south)-.",
 			"Exits: -#west#-.",
-			r"Exits: -/up\-.",
-			r"Exits: -\down/-.",
+			"Exits: -/up\\-.",
+			"Exits: -\\down/-.",
 			"Exits: =north=.",
 			"Exits: =[east]=.",
 			"Exits: =(south)=.",
 			"Exits: =#west#=.",
-			r"Exits: =/up\=.",
-			r"Exits: =\down/=.",
+			"Exits: =/up\\=.",
+			"Exits: =\\down/=.",
 			"Exits: ~#north#~, -east-.",
-			"Exits: =[south]', (west), ~#up#~.",
+			"Exits: =[south]=, (west), ~#up#~.",
 			"Exits: none.",
 		]:
-			m = autoexitsRegexp.match(autoexits)
-			self.assertTrue(m)
-			exits = m.group("exits")
-			for exit in exits:
-				self.assertTrue(exit in ["north", "east", "south", "west", "up", "down"])
-
+			m = autoexitRegexp.match(autoexits)
+			self.assertTrue(m, autoexits + " does not match the autoexitRegexp")
+			for exit in m.group("exits").split(", "):
+				m = exitRegexp.match(exit)
+				self.assertTrue(
+					m.group("isNone") or m.group("dir") in DIRECTIONS,
+					"{dir} from {autoexits} is not a valid direction nor is it 'none'.".format(dir=exit, autoexits=autoexits)
+				)
 
 	@unittest.skip
 	def test_exitsCommandRegexp(self):
