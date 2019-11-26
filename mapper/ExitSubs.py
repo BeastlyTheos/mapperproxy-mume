@@ -12,3 +12,17 @@ autoexitRegexp = re.compile(r"Exits: (?P<exits>(" + exitRegexpString + r"(, )?)+
 exitCommandRegexp = re.compile(
 	r"(?P<exits>( *" + exitRegexpString + " +- [^\r]+(\r\n)?)+)"
 )
+
+
+class ExitsSubstituter(object):
+	def __init__(self, mapper):
+		self.mapper = mapper
+		self.mapper.registerMudEventHandler("exits", self.handle)
+
+	def handle(self, exits):
+		m = autoexitRegexp.match(exits)
+		if m:
+			self.handleAutoExits(m)
+
+	def handleAutoExits(self, regexpMatch):
+		self.mapper.output("Exits: none.")
