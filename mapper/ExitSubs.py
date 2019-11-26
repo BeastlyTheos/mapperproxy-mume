@@ -20,9 +20,18 @@ class ExitsSubstituter(object):
 		self.mapper.registerMudEventHandler("exits", self.handle)
 
 	def handle(self, exits):
+		hiddenExits = []
+		for exit in self.mapper.currentRoom.exits:
+			if "hidden" in exit.doorFlags:
+				hiddenExits.append(exit)
+		if not hiddenExits:
+			self.output(exits)
 		m = autoexitRegexp.match(exits)
 		if m:
 			self.handleAutoExits(m)
 
 	def handleAutoExits(self, regexpMatch):
+		# get exits list 
+		# get current room's exits
+		# for every one of the current room's exits that is not in the regexp list, add it
 		self.mapper.output("Exits: none.")
