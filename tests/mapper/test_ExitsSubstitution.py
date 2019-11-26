@@ -3,8 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import unittest
+from unittest.mock import Mock
 
-from mapper.ExitSubs import autoexitRegexp, exitCommandRegexp, exitRegexp
+from mapper.ExitSubs import autoexitRegexp, exitCommandRegexp, exitRegexp, ExitsSubstituter
+from mapper.mapper import Mapper
 from mapper.world import DIRECTIONS
 
 
@@ -129,7 +131,29 @@ class TestExitsSubstitution_regexp(unittest.TestCase):
 					"{dir} from {exits} is not a valid direction nor is it 'none'.".format(dir=exit, exits=exits)
 				)
 
-#class TestExitsSubstitution(unittest.TestCase):
-#class method to setup mapper object
-#instance method to setup new room object, and remock the client send method
-#			have various functions that call the event handler, varrying the room attributes, such as, no exits, some exits, some exits with some being hidden, all exits being hidden, room object knows of no exits, but game says there are none...
+
+class TestExitsSubstitution_handler(unittest.TestCase):
+	@classmethod
+	def setUpClass(cls):
+		Mapper.loadRooms = Mock()  # to speed execution of tests
+		cls.mapper = Mapper(
+			client=Mock(),
+			server=None,
+			outputFormat=None,
+			interface="text",
+			promptTerminator=None,
+			gagPrompts=None,
+			findFormat=None,
+			isEmulatingOffline=None,
+		)
+		cls.mapper.daemon = True  # this allows unittest to quit if the mapper thread does not close properly.
+		cls.exitsSubstituter = ExitsSubstituter(cls.mapper)
+
+	def setUp(self):
+		self.mapper = TestExitsSubstitution_handler.mapper
+		self.mapper._client.sendall = Mock()
+		self.handle = TestExitsSubstitution_handler.exitsSubstituter.handle
+
+	def test_handler_withNoExits(self):
+		self.handle("Exits: none.\r\n")
+		self.mapper._client.sendall.assert_called_with(b"\r\nExits: none.\r\n")
