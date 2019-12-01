@@ -921,7 +921,7 @@ class Mapper(threading.Thread, World):
 			"Suddenly, you lose your balance and crash to the cave floor below."
 		):
 			self.sync(vnum="15324")
-		elif not self.timeSynchronized:
+		elif False and not self.timeSynchronized:
 			self.syncTime(data)
 		if MOVEMENT_FORCED_REGEX.search(data) or MOVEMENT_PREVENTED_REGEX.search(data):
 			self.stopRun()
