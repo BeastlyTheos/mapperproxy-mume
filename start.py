@@ -96,17 +96,17 @@ if __name__ == "__main__":
 		default="{vnum}, {name}, {attribute}"
 	)
 	args = parser.parse_args()
-	try:
-		mapper.main.main(
-			localHost=args.local_host,
-			localPort=args.local_port,
-			remoteHost=args.remote_host,
-			remotePort=args.remote_port,
-			noSsl=args.no_ssl
-		)
-	except Exception:
-		traceback.print_exception(*sys.exc_info())
-		logging.exception("OOPS!")
-	finally:
-		logging.info("Shutting down.")
-		logging.shutdown()
+	while True:
+		print("starting")
+		try:
+			mapper.main.main(
+				localHost=args.local_host,
+				localPort=args.local_port,
+				remoteHost=args.remote_host,
+				remotePort=args.remote_port,
+				noSsl=args.no_ssl
+			)
+		except Exception:
+			traceback.print_exception(*sys.exc_info())
+			logging.exception("OOPS!")
+		input()
