@@ -98,12 +98,6 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	try:
 		mapper.main.main(
-			outputFormat=args.format,
-			interface=args.interface,
-			isEmulatingOffline=args.emulation,
-			promptTerminator=b"\r\n" if args.prompt_terminator_lf else None,
-			gagPrompts=args.gag_prompts,
-			findFormat=args.find_format,
 			localHost=args.local_host,
 			localPort=args.local_port,
 			remoteHost=args.remote_host,
