@@ -109,4 +109,4 @@ if __name__ == "__main__":
 		except Exception:
 			traceback.print_exception(*sys.exc_info())
 			logging.exception("OOPS!")
-		input()
+		exit()

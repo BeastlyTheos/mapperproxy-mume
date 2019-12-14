@@ -121,26 +121,20 @@ def main(
 	proxySocket.listen(1)
 	touch(LISTENING_STATUS_FILE)
 	clientConnection, proxyAddress = proxySocket.accept()
-	clientConnection.settimeout(1.0)
+	clientConnection.settimeout(3.0)
 	# initialise server connection
 	serverConnection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	serverConnection.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 	serverConnection.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-	if not noSsl and ssl is not None:
-		serverConnection = ssl.wrap_socket(serverConnection)
-		clientConnection = ssl.wrap_socket(clientConnection)
-	try:
-		serverConnection.connect((remoteHost, remotePort))
-	except TimeoutError:
+	if True or not noSsl and ssl is not None:
 		try:
-			clientConnection.sendall(b"\r\nError: server connection timed out!\r\n")
-			clientConnection.sendall(b"\r\n")
-			clientConnection.shutdown(socket.SHUT_RDWR)
-		except EnvironmentError:
-			pass
-		clientConnection.close()
-		removeFile(LISTENING_STATUS_FILE)
-		return
+			#serverConnection = ssl.wrap_socket(serverConnection, ssl_version=ssl.PROTOCOL_TLS)
+			clientConnection = ssl.wrap_socket(clientConnection, check_hostname=False, ssl_version=ssl.PROTOCOL_TLS_CLIENT)
+			serverConnection.connect((remoteHost, remotePort))
+		except Exception:
+			print("could not encrypt")
+			input()
+			raise
 	if not noSsl and ssl is not None:
 		# Validating server identity with ssl module
 		# See https://wiki.python.org/moin/SSL
