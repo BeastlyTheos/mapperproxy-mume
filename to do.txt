@@ -1,0 +1,161 @@
+message dave smith about work
+reply to bill asking how early he shows up and if i could just show up early with him
+
+jobs
+put lines in resume about recent work and habbit of coding mapper
+apply to trent job
+https://triplebyte.com
+email EPC jobs to ask about finding more work
+get a list of freelancing sites upwork, toptal, fiverr, peoplePerHour, Gigster
+
+boredom
+contribute to python configparser by coding something that interpolates values into an existing file
+contribute to git by fixing bug with capitalisation of branch names
+contribute to wireshark by making it accessible
+check out apps AIRA and tap tap see
+reapply to squaretrade protection
+email daily wire, crowder, and quilette to ask if they have connected any dots between UBI and Alberta's social credit, especially the similarity between the terms freeedom dividend and social credit
+contact bell to ask about their bill
+talk with Lauren about volunteering at the one roof
+
+physio
+call mcdonald street clinic to ask about their experience with connective tissue disorders
+McDonnel Street Clinic. 329 McDonnel St., Unit 2. Peterborough, ON K9H 2W9. (705) 749-1313 . info@totalphysiotherapy.ca  
+call doctor shapiro
+
+chrom:
+scroll through history past the current day
+get the hang of using its bookmarks
+set to warn before closing multiple tabs
+
+git workshop:
+sean said: okay yeah I'll look over that and make sure. I'll add some markdown code blocks to simulate how it might look when they do these steps maybe? or just go more into detail on things 
+decide how to modify questions 1, 2, 3, or 9, or by using those to create something entirely new
+existing workshops include patchwork, github tutorial, codeacamedy course on git seesm more fun, and might actually get people interested in using git, might rquire registration.  
+homebrew idea consists of writing the hello world assignment 0, commit, push to github, add readme, push again. After this, download a simple demo app that is missing one atomic feature, implement it, then debug a not-so-obvious bug.
+or Sean's idea is to do hello world, but add features to it and push.
+dice roller, that only rolls a d20. the feature is to 
+dice roller
+1 piggy bank
+2  rich horton's doughnuts
+3 metric convertion table
+8 circle class
+9 fraction class
+10:Redo Assignment 2, Question 2 (Rich’s Donuts) but this time enhance your input validation so the program protects against both a negative number of donuts and data which is not  
+
+NVDA
+finances
+to review past
+resume of changes in living arrangements, including changes including school, accomidations, and income
+also need the manditory special necessities for medical travel
+ODSP
+get proof of enrollment for each semester.
+get 1142 rent receipts
+wait for email from codey about getting last paystub or income 2018 statement from JA
+check if trent has rent receipts for residence
+wait for london properties to give rent receipt
+call ODSP officer to check what I should bring to appointment on aug 14th at 10:30 with linda corney  ext 3762 
+reply to Ron
+check that claims checque has gone through
+start investing
+call RBC about RDSP, or talk to Ron
+read RBC investment statement
+call rbc to talk about RDSP options and why not BMO by calling 1-800-463-3863. An RBC advisor can help you integrate the RDSP into a long-term plan for the well-being of you and your family.
+
+jobs
+rerigister for workintech.ca then check workintech for positions
+swish maintenance: comhttps://ca.indeed.com/viewjob?jk=1135cb9b5b8ee64e&q=companyname%3A%22Swish+Maintenance%22&l=Peterborough%2C+ON&tk=1cochpvm05hh8802&from=web&vjs=3
+https://ca.indeed.com/Software-Development-jobs-in-Peterborough,-ON
+FDM group only has opportunities in GTA
+northern chem inc in niagara falls www.northerncheminc.ca 
+the nielsen company human resources http://www.nielsen.com/ca/en.html
+https://career4.successfactors.com/sfcareer/jobreqcareerpvt?jobId=25513&company=C0015736614P&username
+the jonah group https://www.jonahgroup.com/
+wait to hear back from safran HR
+Sarah will check in with nexicom and acorn30
+search workintech.ca
+check in with the CNIB internship program
+check listings on https://equitek.ca/
+do something sensable with job sources.txt
+check out workintech.ca
+follow up with jacque on nexicom
+follow specialisterne on facebookand linkedin. https://www.facebook.com/groups/specialisternecanadaforum/
+revamp LinkedIn
+flexjobs.  look at diferent types of subject lines from their emails, and possibly sift through some of the top xx job emails
+evaluate the trent job listings saved in favourits and create new job search folders for them
+skillshare and ziprecruter
+ontario jobs https://www.gojobs.gov.on.ca/Pages/SEP.aspx
+career edge https://www.careeredge.ca/for-job-seekers/jobs/
+check out Some funding programs available in Canada include: e-Talent Canada Ontario Career Connect, Biotalent Opportunities Fund Wage Subsidy and Green Focus, and Eco Canada.
+check the job bank
+check out TD internships
+ontario jobs internships
+communitech co op, td bank, linkedin
+email us at marketing@downtodash.com for more details.
+from notes file:
+independentreach.com has interesting job opprotunity. they just started in ptbo, and might have some simple stuff I could do.
+try applying to GM through firefox
+check TD's online listings. their tech jobs are all in Toronto, but they might have online jobs
+the financial group here in town wants customer support people
+teach kids computer programs: https://ccr.trentu.ca/myAccount/career/postings.htm
+google summer of code: https://developers.google.com/open-source/gsoc/
+IT internship: http://ca.indeed.com/cmp/Savage-Arms-(Canada),-Inc./jobs/IT-Intern-d08d4585e59e701f?q=Technology
+contact emmit digital solutions inc, kim appleton: http://www.emmattweb.com/contact.php
+they don't look like they're hiring developers. http://communityfuturespeterborough.ca/business-resources/
+look at safron electronics Canada. they definitely have job openings
+also, Indeed ihawkins@cantechservices.com.
+appears to be based in lakefield: http://ca.indeed.com/cmp/Savage-Arms-(Canada),-Inc./jobs/IT-Intern-d08d4585e59e
+plan is an IT staffing company with the following listings: http://ca.indeed.com/cmp/Planitsearch-2?jk=b408e08d59443712&from=serp-more&jcid=4c728992daf0e9dc&attributionid=serp-more
+COACT - KL Ltd.    
+ Division:   Administration  
+ Website:        
+COACT - KL Ltd. 	
+Division: 	Administration 	
+Website: 	www.coactkl.org  	
+stephen richy from frontier  computing, sricci@frontiercomputing.ca is looking for jaws trainers
+ 	kappleton@emmitt.com
+
+contacts
+doc colin shapiro 416 603 5273  
+750 dundas stree west suite 221 Toronto M6J 3S3 write 'sleep and alertness clinic"
+probably daphne archibald's phone 647 278 3581
+doctor cockwell	 905 845 8771
+pharmacy fax 905 847 9287, probably for the oakville one
+greg at obsa 416 426 7191
+marc's email jumpy.juggles84@rogers.com
+CCB kawartha white cane chapter Fay o'neal 705 799 5120 fayB@sympatico.ca
+active together part of t subcommittee for the couunsil for people with disabilitie 
+lions club contact: teressa theresa_hewitt2004@yahoo.com
+margaret.mcgee@cnib.ca 159 kings street
+direct to you farmacy 1 877 796 7979  
+alexandra campbell. co-founder and COO of kavtek. main 1 705 812 2322 ext 190. mobile 1 705 768 7929. alex@kavtek. 270 george st north, 3rd floor, ptbo ont, k9j3h1.
+Sanu somaweera. co-founder and CEO. main 1 705 812 2322 ext 187. sanu@kavtek.com
+
+hinkspot feedback
+when failed signin, keep email address in email field
+already a beta user? sign in here
+try to have exactly one h1 element on the page marking the main content for that page
+
+
+reading list
+misses metaphor and nearly orthodox
+stripping of the alters
+time enternal podcast
+Lorenz: Breaking Hitler’s Top Secret Code at Bletchley Park </publication/lorenz/9780750978859/>
+House of Spies </publication/house-of-spies/9780750964012/> by Peter Matthews
+I Heard My Country Calling </publication/I-Heard-My-Country-Calling/9780750961257/> is my tribute to her and testament to her extraordinary life and exceptional courage.
+By Sue Elliott
+SIGINT: The Secret History of Signals Intelligence </publication/SIGINT/9780752487342/>
+I Heard My Country Calling </publication/I-Heard-My-Country-Calling/9780750961257/> is my tribute to her and testament to her extraordinary life and exceptional courage. By Sue Elliott
+russian roulette is apparently the preeminent work on trump and his russian connection
+the invention of russian and putin's  country were read by someone on goodreads
+		MOST SECRET WAR OR THE WIZARD WAR
+Blowing Up Russia: Terror from Within </wiki/Blowing_Up_Russia:_Terror_from_Within>
+Lubyanka Criminal Group </wiki/Lubyanka_Criminal_Group>
+by alexandre litvineko 
+putin's russia by anna politovskia 
+wait for thing in the mail from GDB, then get it signed and return it.
+the universe as symbol by St Nikolai (Velimirovich) of Ohrid and Žica's short work "
+david murry's maddness of crowds. andrew klavan's the great, good thing
+Everything Flows by Vasily Grossman.  about a man exiled from ukraine and also about the holodomore
+city of thieves set during the seige of lennon grad 

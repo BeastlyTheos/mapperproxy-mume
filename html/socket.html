@@ -1,0 +1,2789 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>socket API documentation</title>
+<meta name="description" content="This module provides socket operations and some related functions.
+On Unix, it supports IP (Internet Protocol) and Unix domain sockets.
+On other …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>socket</code></h1>
+</header>
+<section id="section-intro">
+<p>This module provides socket operations and some related functions.
+On Unix, it supports IP (Internet Protocol) and Unix domain sockets.
+On other systems, it only supports IP. Functions specific for a
+socket are available as methods of the socket object.</p>
+<p>Functions:</p>
+<p>socket() &ndash; create a new socket object
+socketpair() &ndash; create a pair of new socket objects [<em>]
+fromfd() &ndash; create a socket object from an open file descriptor [</em>]
+fromshare() &ndash; create a socket object from data received from socket.share() [*]
+gethostname() &ndash; return the current hostname
+gethostbyname() &ndash; map a hostname to its IP number
+gethostbyaddr() &ndash; map an IP number or hostname to DNS info
+getservbyname() &ndash; map a service name and a protocol name to a port number
+getprotobyname() &ndash; map a protocol name (e.g. 'tcp') to a number
+ntohs(), ntohl() &ndash; convert 16, 32 bit int from network to host byte order
+htons(), htonl() &ndash; convert 16, 32 bit int from host to network byte order
+inet_aton() &ndash; convert IP addr string (123.45.67.89) to 32-bit packed format
+inet_ntoa() &ndash; convert 32-bit packed format IP to string (123.45.67.89)
+socket.getdefaulttimeout() &ndash; get the default timeout value
+socket.setdefaulttimeout() &ndash; set the default timeout value
+create_connection() &ndash; connects to an address, with an optional timeout and
+optional source address.</p>
+<p>[*] not available on all platforms!</p>
+<p>Special objects:</p>
+<p>SocketType &ndash; type object for socket objects
+error &ndash; exception raised for I/O errors
+has_ipv6 &ndash; boolean value indicating if IPv6 is supported</p>
+<p>IntEnum constants:</p>
+<p>AF_INET, AF_UNIX &ndash; socket domains (first argument to socket() call)
+SOCK_STREAM, SOCK_DGRAM, SOCK_RAW &ndash; socket types (second argument)</p>
+<p>Integer constants:</p>
+<p>Many other constants may be defined; these may be used in calls to
+the setsockopt() and getsockopt() methods.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># Wrapper module for _socket, providing some additional facilities
+# implemented in Python.
+
+&#34;&#34;&#34;\
+This module provides socket operations and some related functions.
+On Unix, it supports IP (Internet Protocol) and Unix domain sockets.
+On other systems, it only supports IP. Functions specific for a
+socket are available as methods of the socket object.
+
+Functions:
+
+socket() -- create a new socket object
+socketpair() -- create a pair of new socket objects [*]
+fromfd() -- create a socket object from an open file descriptor [*]
+fromshare() -- create a socket object from data received from socket.share() [*]
+gethostname() -- return the current hostname
+gethostbyname() -- map a hostname to its IP number
+gethostbyaddr() -- map an IP number or hostname to DNS info
+getservbyname() -- map a service name and a protocol name to a port number
+getprotobyname() -- map a protocol name (e.g. &#39;tcp&#39;) to a number
+ntohs(), ntohl() -- convert 16, 32 bit int from network to host byte order
+htons(), htonl() -- convert 16, 32 bit int from host to network byte order
+inet_aton() -- convert IP addr string (123.45.67.89) to 32-bit packed format
+inet_ntoa() -- convert 32-bit packed format IP to string (123.45.67.89)
+socket.getdefaulttimeout() -- get the default timeout value
+socket.setdefaulttimeout() -- set the default timeout value
+create_connection() -- connects to an address, with an optional timeout and
+                       optional source address.
+
+ [*] not available on all platforms!
+
+Special objects:
+
+SocketType -- type object for socket objects
+error -- exception raised for I/O errors
+has_ipv6 -- boolean value indicating if IPv6 is supported
+
+IntEnum constants:
+
+AF_INET, AF_UNIX -- socket domains (first argument to socket() call)
+SOCK_STREAM, SOCK_DGRAM, SOCK_RAW -- socket types (second argument)
+
+Integer constants:
+
+Many other constants may be defined; these may be used in calls to
+the setsockopt() and getsockopt() methods.
+&#34;&#34;&#34;
+
+import _socket
+from _socket import *
+
+import os, sys, io, selectors
+from enum import IntEnum, IntFlag
+
+try:
+    import errno
+except ImportError:
+    errno = None
+EBADF = getattr(errno, &#39;EBADF&#39;, 9)
+EAGAIN = getattr(errno, &#39;EAGAIN&#39;, 11)
+EWOULDBLOCK = getattr(errno, &#39;EWOULDBLOCK&#39;, 11)
+
+__all__ = [&#34;fromfd&#34;, &#34;getfqdn&#34;, &#34;create_connection&#34;, &#34;create_server&#34;,
+           &#34;has_dualstack_ipv6&#34;, &#34;AddressFamily&#34;, &#34;SocketKind&#34;]
+__all__.extend(os._get_exports_list(_socket))
+
+# Set up the socket.AF_* socket.SOCK_* constants as members of IntEnums for
+# nicer string representations.
+# Note that _socket only knows about the integer values. The public interface
+# in this module understands the enums and translates them back from integers
+# where needed (e.g. .family property of a socket object).
+
+IntEnum._convert_(
+        &#39;AddressFamily&#39;,
+        __name__,
+        lambda C: C.isupper() and C.startswith(&#39;AF_&#39;))
+
+IntEnum._convert_(
+        &#39;SocketKind&#39;,
+        __name__,
+        lambda C: C.isupper() and C.startswith(&#39;SOCK_&#39;))
+
+IntFlag._convert_(
+        &#39;MsgFlag&#39;,
+        __name__,
+        lambda C: C.isupper() and C.startswith(&#39;MSG_&#39;))
+
+IntFlag._convert_(
+        &#39;AddressInfo&#39;,
+        __name__,
+        lambda C: C.isupper() and C.startswith(&#39;AI_&#39;))
+
+_LOCALHOST    = &#39;127.0.0.1&#39;
+_LOCALHOST_V6 = &#39;::1&#39;
+
+
+def _intenum_converter(value, enum_klass):
+    &#34;&#34;&#34;Convert a numeric family value to an IntEnum member.
+
+    If it&#39;s not a known member, return the numeric value itself.
+    &#34;&#34;&#34;
+    try:
+        return enum_klass(value)
+    except ValueError:
+        return value
+
+_realsocket = socket
+
+# WSA error codes
+if sys.platform.lower().startswith(&#34;win&#34;):
+    errorTab = {}
+    errorTab[6] = &#34;Specified event object handle is invalid.&#34;
+    errorTab[8] = &#34;Insufficient memory available.&#34;
+    errorTab[87] = &#34;One or more parameters are invalid.&#34;
+    errorTab[995] = &#34;Overlapped operation aborted.&#34;
+    errorTab[996] = &#34;Overlapped I/O event object not in signaled state.&#34;
+    errorTab[997] = &#34;Overlapped operation will complete later.&#34;
+    errorTab[10004] = &#34;The operation was interrupted.&#34;
+    errorTab[10009] = &#34;A bad file handle was passed.&#34;
+    errorTab[10013] = &#34;Permission denied.&#34;
+    errorTab[10014] = &#34;A fault occurred on the network??&#34;  # WSAEFAULT
+    errorTab[10022] = &#34;An invalid operation was attempted.&#34;
+    errorTab[10024] = &#34;Too many open files.&#34;
+    errorTab[10035] = &#34;The socket operation would block&#34;
+    errorTab[10036] = &#34;A blocking operation is already in progress.&#34;
+    errorTab[10037] = &#34;Operation already in progress.&#34;
+    errorTab[10038] = &#34;Socket operation on nonsocket.&#34;
+    errorTab[10039] = &#34;Destination address required.&#34;
+    errorTab[10040] = &#34;Message too long.&#34;
+    errorTab[10041] = &#34;Protocol wrong type for socket.&#34;
+    errorTab[10042] = &#34;Bad protocol option.&#34;
+    errorTab[10043] = &#34;Protocol not supported.&#34;
+    errorTab[10044] = &#34;Socket type not supported.&#34;
+    errorTab[10045] = &#34;Operation not supported.&#34;
+    errorTab[10046] = &#34;Protocol family not supported.&#34;
+    errorTab[10047] = &#34;Address family not supported by protocol family.&#34;
+    errorTab[10048] = &#34;The network address is in use.&#34;
+    errorTab[10049] = &#34;Cannot assign requested address.&#34;
+    errorTab[10050] = &#34;Network is down.&#34;
+    errorTab[10051] = &#34;Network is unreachable.&#34;
+    errorTab[10052] = &#34;Network dropped connection on reset.&#34;
+    errorTab[10053] = &#34;Software caused connection abort.&#34;
+    errorTab[10054] = &#34;The connection has been reset.&#34;
+    errorTab[10055] = &#34;No buffer space available.&#34;
+    errorTab[10056] = &#34;Socket is already connected.&#34;
+    errorTab[10057] = &#34;Socket is not connected.&#34;
+    errorTab[10058] = &#34;The network has been shut down.&#34;
+    errorTab[10059] = &#34;Too many references.&#34;
+    errorTab[10060] = &#34;The operation timed out.&#34;
+    errorTab[10061] = &#34;Connection refused.&#34;
+    errorTab[10062] = &#34;Cannot translate name.&#34;
+    errorTab[10063] = &#34;The name is too long.&#34;
+    errorTab[10064] = &#34;The host is down.&#34;
+    errorTab[10065] = &#34;The host is unreachable.&#34;
+    errorTab[10066] = &#34;Directory not empty.&#34;
+    errorTab[10067] = &#34;Too many processes.&#34;
+    errorTab[10068] = &#34;User quota exceeded.&#34;
+    errorTab[10069] = &#34;Disk quota exceeded.&#34;
+    errorTab[10070] = &#34;Stale file handle reference.&#34;
+    errorTab[10071] = &#34;Item is remote.&#34;
+    errorTab[10091] = &#34;Network subsystem is unavailable.&#34;
+    errorTab[10092] = &#34;Winsock.dll version out of range.&#34;
+    errorTab[10093] = &#34;Successful WSAStartup not yet performed.&#34;
+    errorTab[10101] = &#34;Graceful shutdown in progress.&#34;
+    errorTab[10102] = &#34;No more results from WSALookupServiceNext.&#34;
+    errorTab[10103] = &#34;Call has been canceled.&#34;
+    errorTab[10104] = &#34;Procedure call table is invalid.&#34;
+    errorTab[10105] = &#34;Service provider is invalid.&#34;
+    errorTab[10106] = &#34;Service provider failed to initialize.&#34;
+    errorTab[10107] = &#34;System call failure.&#34;
+    errorTab[10108] = &#34;Service not found.&#34;
+    errorTab[10109] = &#34;Class type not found.&#34;
+    errorTab[10110] = &#34;No more results from WSALookupServiceNext.&#34;
+    errorTab[10111] = &#34;Call was canceled.&#34;
+    errorTab[10112] = &#34;Database query was refused.&#34;
+    errorTab[11001] = &#34;Host not found.&#34;
+    errorTab[11002] = &#34;Nonauthoritative host not found.&#34;
+    errorTab[11003] = &#34;This is a nonrecoverable error.&#34;
+    errorTab[11004] = &#34;Valid name, no data record requested type.&#34;
+    errorTab[11005] = &#34;QoS receivers.&#34;
+    errorTab[11006] = &#34;QoS senders.&#34;
+    errorTab[11007] = &#34;No QoS senders.&#34;
+    errorTab[11008] = &#34;QoS no receivers.&#34;
+    errorTab[11009] = &#34;QoS request confirmed.&#34;
+    errorTab[11010] = &#34;QoS admission error.&#34;
+    errorTab[11011] = &#34;QoS policy failure.&#34;
+    errorTab[11012] = &#34;QoS bad style.&#34;
+    errorTab[11013] = &#34;QoS bad object.&#34;
+    errorTab[11014] = &#34;QoS traffic control error.&#34;
+    errorTab[11015] = &#34;QoS generic error.&#34;
+    errorTab[11016] = &#34;QoS service type error.&#34;
+    errorTab[11017] = &#34;QoS flowspec error.&#34;
+    errorTab[11018] = &#34;Invalid QoS provider buffer.&#34;
+    errorTab[11019] = &#34;Invalid QoS filter style.&#34;
+    errorTab[11020] = &#34;Invalid QoS filter style.&#34;
+    errorTab[11021] = &#34;Incorrect QoS filter count.&#34;
+    errorTab[11022] = &#34;Invalid QoS object length.&#34;
+    errorTab[11023] = &#34;Incorrect QoS flow count.&#34;
+    errorTab[11024] = &#34;Unrecognized QoS object.&#34;
+    errorTab[11025] = &#34;Invalid QoS policy object.&#34;
+    errorTab[11026] = &#34;Invalid QoS flow descriptor.&#34;
+    errorTab[11027] = &#34;Invalid QoS provider-specific flowspec.&#34;
+    errorTab[11028] = &#34;Invalid QoS provider-specific filterspec.&#34;
+    errorTab[11029] = &#34;Invalid QoS shape discard mode object.&#34;
+    errorTab[11030] = &#34;Invalid QoS shaping rate object.&#34;
+    errorTab[11031] = &#34;Reserved policy QoS element type.&#34;
+    __all__.append(&#34;errorTab&#34;)
+
+
+class _GiveupOnSendfile(Exception): pass
+
+
+class socket(_socket.socket):
+
+    &#34;&#34;&#34;A subclass of _socket.socket adding the makefile() method.&#34;&#34;&#34;
+
+    __slots__ = [&#34;__weakref__&#34;, &#34;_io_refs&#34;, &#34;_closed&#34;]
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they&#39;re just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+        _socket.socket.__init__(self, family, type, proto, fileno)
+        self._io_refs = 0
+        self._closed = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        if not self._closed:
+            self.close()
+
+    def __repr__(self):
+        &#34;&#34;&#34;Wrap __repr__() to reveal the real class name and socket
+        address(es).
+        &#34;&#34;&#34;
+        closed = getattr(self, &#39;_closed&#39;, False)
+        s = &#34;&lt;%s.%s%s fd=%i, family=%s, type=%s, proto=%i&#34; \
+            % (self.__class__.__module__,
+               self.__class__.__qualname__,
+               &#34; [closed]&#34; if closed else &#34;&#34;,
+               self.fileno(),
+               self.family,
+               self.type,
+               self.proto)
+        if not closed:
+            try:
+                laddr = self.getsockname()
+                if laddr:
+                    s += &#34;, laddr=%s&#34; % str(laddr)
+            except error:
+                pass
+            try:
+                raddr = self.getpeername()
+                if raddr:
+                    s += &#34;, raddr=%s&#34; % str(raddr)
+            except error:
+                pass
+        s += &#39;&gt;&#39;
+        return s
+
+    def __getstate__(self):
+        raise TypeError(f&#34;cannot pickle {self.__class__.__name__!r} object&#34;)
+
+    def dup(self):
+        &#34;&#34;&#34;dup() -&gt; socket object
+
+        Duplicate the socket. Return a new socket object connected to the same
+        system resource. The new socket is non-inheritable.
+        &#34;&#34;&#34;
+        fd = dup(self.fileno())
+        sock = self.__class__(self.family, self.type, self.proto, fileno=fd)
+        sock.settimeout(self.gettimeout())
+        return sock
+
+    def accept(self):
+        &#34;&#34;&#34;accept() -&gt; (socket object, address info)
+
+        Wait for an incoming connection.  Return a new socket
+        representing the connection, and the address of the client.
+        For IP sockets, the address info is a pair (hostaddr, port).
+        &#34;&#34;&#34;
+        fd, addr = self._accept()
+        sock = socket(self.family, self.type, self.proto, fileno=fd)
+        # Issue #7995: if no default timeout is set and the listening
+        # socket had a (non-zero) timeout, force the new socket in blocking
+        # mode to override platform-specific socket flags inheritance.
+        if getdefaulttimeout() is None and self.gettimeout():
+            sock.setblocking(True)
+        return sock, addr
+
+    def makefile(self, mode=&#34;r&#34;, buffering=None, *,
+                 encoding=None, errors=None, newline=None):
+        &#34;&#34;&#34;makefile(...) -&gt; an I/O stream connected to the socket
+
+        The arguments are as for io.open() after the filename, except the only
+        supported mode values are &#39;r&#39; (default), &#39;w&#39; and &#39;b&#39;.
+        &#34;&#34;&#34;
+        # XXX refactor to share code?
+        if not set(mode) &lt;= {&#34;r&#34;, &#34;w&#34;, &#34;b&#34;}:
+            raise ValueError(&#34;invalid mode %r (only r, w, b allowed)&#34; % (mode,))
+        writing = &#34;w&#34; in mode
+        reading = &#34;r&#34; in mode or not writing
+        assert reading or writing
+        binary = &#34;b&#34; in mode
+        rawmode = &#34;&#34;
+        if reading:
+            rawmode += &#34;r&#34;
+        if writing:
+            rawmode += &#34;w&#34;
+        raw = SocketIO(self, rawmode)
+        self._io_refs += 1
+        if buffering is None:
+            buffering = -1
+        if buffering &lt; 0:
+            buffering = io.DEFAULT_BUFFER_SIZE
+        if buffering == 0:
+            if not binary:
+                raise ValueError(&#34;unbuffered streams must be binary&#34;)
+            return raw
+        if reading and writing:
+            buffer = io.BufferedRWPair(raw, raw, buffering)
+        elif reading:
+            buffer = io.BufferedReader(raw, buffering)
+        else:
+            assert writing
+            buffer = io.BufferedWriter(raw, buffering)
+        if binary:
+            return buffer
+        text = io.TextIOWrapper(buffer, encoding, errors, newline)
+        text.mode = mode
+        return text
+
+    if hasattr(os, &#39;sendfile&#39;):
+
+        def _sendfile_use_sendfile(self, file, offset=0, count=None):
+            self._check_sendfile_params(file, offset, count)
+            sockno = self.fileno()
+            try:
+                fileno = file.fileno()
+            except (AttributeError, io.UnsupportedOperation) as err:
+                raise _GiveupOnSendfile(err)  # not a regular file
+            try:
+                fsize = os.fstat(fileno).st_size
+            except OSError as err:
+                raise _GiveupOnSendfile(err)  # not a regular file
+            if not fsize:
+                return 0  # empty file
+            # Truncate to 1GiB to avoid OverflowError, see bpo-38319.
+            blocksize = min(count or fsize, 2 ** 30)
+            timeout = self.gettimeout()
+            if timeout == 0:
+                raise ValueError(&#34;non-blocking sockets are not supported&#34;)
+            # poll/select have the advantage of not requiring any
+            # extra file descriptor, contrarily to epoll/kqueue
+            # (also, they require a single syscall).
+            if hasattr(selectors, &#39;PollSelector&#39;):
+                selector = selectors.PollSelector()
+            else:
+                selector = selectors.SelectSelector()
+            selector.register(sockno, selectors.EVENT_WRITE)
+
+            total_sent = 0
+            # localize variable access to minimize overhead
+            selector_select = selector.select
+            os_sendfile = os.sendfile
+            try:
+                while True:
+                    if timeout and not selector_select(timeout):
+                        raise _socket.timeout(&#39;timed out&#39;)
+                    if count:
+                        blocksize = count - total_sent
+                        if blocksize &lt;= 0:
+                            break
+                    try:
+                        sent = os_sendfile(sockno, fileno, offset, blocksize)
+                    except BlockingIOError:
+                        if not timeout:
+                            # Block until the socket is ready to send some
+                            # data; avoids hogging CPU resources.
+                            selector_select()
+                        continue
+                    except OSError as err:
+                        if total_sent == 0:
+                            # We can get here for different reasons, the main
+                            # one being &#39;file&#39; is not a regular mmap(2)-like
+                            # file, in which case we&#39;ll fall back on using
+                            # plain send().
+                            raise _GiveupOnSendfile(err)
+                        raise err from None
+                    else:
+                        if sent == 0:
+                            break  # EOF
+                        offset += sent
+                        total_sent += sent
+                return total_sent
+            finally:
+                if total_sent &gt; 0 and hasattr(file, &#39;seek&#39;):
+                    file.seek(offset)
+    else:
+        def _sendfile_use_sendfile(self, file, offset=0, count=None):
+            raise _GiveupOnSendfile(
+                &#34;os.sendfile() not available on this platform&#34;)
+
+    def _sendfile_use_send(self, file, offset=0, count=None):
+        self._check_sendfile_params(file, offset, count)
+        if self.gettimeout() == 0:
+            raise ValueError(&#34;non-blocking sockets are not supported&#34;)
+        if offset:
+            file.seek(offset)
+        blocksize = min(count, 8192) if count else 8192
+        total_sent = 0
+        # localize variable access to minimize overhead
+        file_read = file.read
+        sock_send = self.send
+        try:
+            while True:
+                if count:
+                    blocksize = min(count - total_sent, blocksize)
+                    if blocksize &lt;= 0:
+                        break
+                data = memoryview(file_read(blocksize))
+                if not data:
+                    break  # EOF
+                while True:
+                    try:
+                        sent = sock_send(data)
+                    except BlockingIOError:
+                        continue
+                    else:
+                        total_sent += sent
+                        if sent &lt; len(data):
+                            data = data[sent:]
+                        else:
+                            break
+            return total_sent
+        finally:
+            if total_sent &gt; 0 and hasattr(file, &#39;seek&#39;):
+                file.seek(offset + total_sent)
+
+    def _check_sendfile_params(self, file, offset, count):
+        if &#39;b&#39; not in getattr(file, &#39;mode&#39;, &#39;b&#39;):
+            raise ValueError(&#34;file should be opened in binary mode&#34;)
+        if not self.type &amp; SOCK_STREAM:
+            raise ValueError(&#34;only SOCK_STREAM type sockets are supported&#34;)
+        if count is not None:
+            if not isinstance(count, int):
+                raise TypeError(
+                    &#34;count must be a positive integer (got {!r})&#34;.format(count))
+            if count &lt;= 0:
+                raise ValueError(
+                    &#34;count must be a positive integer (got {!r})&#34;.format(count))
+
+    def sendfile(self, file, offset=0, count=None):
+        &#34;&#34;&#34;sendfile(file[, offset[, count]]) -&gt; sent
+
+        Send a file until EOF is reached by using high-performance
+        os.sendfile() and return the total number of bytes which
+        were sent.
+        *file* must be a regular file object opened in binary mode.
+        If os.sendfile() is not available (e.g. Windows) or file is
+        not a regular file socket.send() will be used instead.
+        *offset* tells from where to start reading the file.
+        If specified, *count* is the total number of bytes to transmit
+        as opposed to sending the file until EOF is reached.
+        File position is updated on return or also in case of error in
+        which case file.tell() can be used to figure out the number of
+        bytes which were sent.
+        The socket must be of SOCK_STREAM type.
+        Non-blocking sockets are not supported.
+        &#34;&#34;&#34;
+        try:
+            return self._sendfile_use_sendfile(file, offset, count)
+        except _GiveupOnSendfile:
+            return self._sendfile_use_send(file, offset, count)
+
+    def _decref_socketios(self):
+        if self._io_refs &gt; 0:
+            self._io_refs -= 1
+        if self._closed:
+            self.close()
+
+    def _real_close(self, _ss=_socket.socket):
+        # This function should not reference any globals. See issue #808164.
+        _ss.close(self)
+
+    def close(self):
+        # This function should not reference any globals. See issue #808164.
+        self._closed = True
+        if self._io_refs &lt;= 0:
+            self._real_close()
+
+    def detach(self):
+        &#34;&#34;&#34;detach() -&gt; file descriptor
+
+        Close the socket object without closing the underlying file descriptor.
+        The object cannot be used after this call, but the file descriptor
+        can be reused for other purposes.  The file descriptor is returned.
+        &#34;&#34;&#34;
+        self._closed = True
+        return super().detach()
+
+    @property
+    def family(self):
+        &#34;&#34;&#34;Read-only access to the address family for this socket.
+        &#34;&#34;&#34;
+        return _intenum_converter(super().family, AddressFamily)
+
+    @property
+    def type(self):
+        &#34;&#34;&#34;Read-only access to the socket type.
+        &#34;&#34;&#34;
+        return _intenum_converter(super().type, SocketKind)
+
+    if os.name == &#39;nt&#39;:
+        def get_inheritable(self):
+            return os.get_handle_inheritable(self.fileno())
+        def set_inheritable(self, inheritable):
+            os.set_handle_inheritable(self.fileno(), inheritable)
+    else:
+        def get_inheritable(self):
+            return os.get_inheritable(self.fileno())
+        def set_inheritable(self, inheritable):
+            os.set_inheritable(self.fileno(), inheritable)
+    get_inheritable.__doc__ = &#34;Get the inheritable flag of the socket&#34;
+    set_inheritable.__doc__ = &#34;Set the inheritable flag of the socket&#34;
+
+def fromfd(fd, family, type, proto=0):
+    &#34;&#34;&#34; fromfd(fd, family, type[, proto]) -&gt; socket object
+
+    Create a socket object from a duplicate of the given file
+    descriptor.  The remaining arguments are the same as for socket().
+    &#34;&#34;&#34;
+    nfd = dup(fd)
+    return socket(family, type, proto, nfd)
+
+if hasattr(_socket.socket, &#34;share&#34;):
+    def fromshare(info):
+        &#34;&#34;&#34; fromshare(info) -&gt; socket object
+
+        Create a socket object from the bytes object returned by
+        socket.share(pid).
+        &#34;&#34;&#34;
+        return socket(0, 0, 0, info)
+    __all__.append(&#34;fromshare&#34;)
+
+if hasattr(_socket, &#34;socketpair&#34;):
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        &#34;&#34;&#34;socketpair([family[, type[, proto]]]) -&gt; (socket object, socket object)
+
+        Create a pair of socket objects from the sockets returned by the platform
+        socketpair() function.
+        The arguments are the same as for socket() except the default family is
+        AF_UNIX if defined on the platform; otherwise, the default is AF_INET.
+        &#34;&#34;&#34;
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+        a, b = _socket.socketpair(family, type, proto)
+        a = socket(family, type, proto, a.detach())
+        b = socket(family, type, proto, b.detach())
+        return a, b
+
+else:
+
+    # Origin: https://gist.github.com/4325783, by Geert Jansen.  Public domain.
+    def socketpair(family=AF_INET, type=SOCK_STREAM, proto=0):
+        if family == AF_INET:
+            host = _LOCALHOST
+        elif family == AF_INET6:
+            host = _LOCALHOST_V6
+        else:
+            raise ValueError(&#34;Only AF_INET and AF_INET6 socket address families &#34;
+                             &#34;are supported&#34;)
+        if type != SOCK_STREAM:
+            raise ValueError(&#34;Only SOCK_STREAM socket type is supported&#34;)
+        if proto != 0:
+            raise ValueError(&#34;Only protocol zero is supported&#34;)
+
+        # We create a connected TCP socket. Note the trick with
+        # setblocking(False) that prevents us from having to create a thread.
+        lsock = socket(family, type, proto)
+        try:
+            lsock.bind((host, 0))
+            lsock.listen()
+            # On IPv6, ignore flow_info and scope_id
+            addr, port = lsock.getsockname()[:2]
+            csock = socket(family, type, proto)
+            try:
+                csock.setblocking(False)
+                try:
+                    csock.connect((addr, port))
+                except (BlockingIOError, InterruptedError):
+                    pass
+                csock.setblocking(True)
+                ssock, _ = lsock.accept()
+            except:
+                csock.close()
+                raise
+        finally:
+            lsock.close()
+        return (ssock, csock)
+    __all__.append(&#34;socketpair&#34;)
+
+socketpair.__doc__ = &#34;&#34;&#34;socketpair([family[, type[, proto]]]) -&gt; (socket object, socket object)
+Create a pair of socket objects from the sockets returned by the platform
+socketpair() function.
+The arguments are the same as for socket() except the default family is AF_UNIX
+if defined on the platform; otherwise, the default is AF_INET.
+&#34;&#34;&#34;
+
+_blocking_errnos = { EAGAIN, EWOULDBLOCK }
+
+class SocketIO(io.RawIOBase):
+
+    &#34;&#34;&#34;Raw I/O implementation for stream sockets.
+
+    This class supports the makefile() method on sockets.  It provides
+    the raw I/O interface on top of a socket object.
+    &#34;&#34;&#34;
+
+    # One might wonder why not let FileIO do the job instead.  There are two
+    # main reasons why FileIO is not adapted:
+    # - it wouldn&#39;t work under Windows (where you can&#39;t used read() and
+    #   write() on a socket handle)
+    # - it wouldn&#39;t work with socket timeouts (FileIO would ignore the
+    #   timeout and consider the socket non-blocking)
+
+    # XXX More docs
+
+    def __init__(self, sock, mode):
+        if mode not in (&#34;r&#34;, &#34;w&#34;, &#34;rw&#34;, &#34;rb&#34;, &#34;wb&#34;, &#34;rwb&#34;):
+            raise ValueError(&#34;invalid mode: %r&#34; % mode)
+        io.RawIOBase.__init__(self)
+        self._sock = sock
+        if &#34;b&#34; not in mode:
+            mode += &#34;b&#34;
+        self._mode = mode
+        self._reading = &#34;r&#34; in mode
+        self._writing = &#34;w&#34; in mode
+        self._timeout_occurred = False
+
+    def readinto(self, b):
+        &#34;&#34;&#34;Read up to len(b) bytes into the writable buffer *b* and return
+        the number of bytes read.  If the socket is non-blocking and no bytes
+        are available, None is returned.
+
+        If *b* is non-empty, a 0 return value indicates that the connection
+        was shutdown at the other end.
+        &#34;&#34;&#34;
+        self._checkClosed()
+        self._checkReadable()
+        if self._timeout_occurred:
+            raise OSError(&#34;cannot read from timed out object&#34;)
+        while True:
+            try:
+                return self._sock.recv_into(b)
+            except timeout:
+                self._timeout_occurred = True
+                raise
+            except error as e:
+                if e.args[0] in _blocking_errnos:
+                    return None
+                raise
+
+    def write(self, b):
+        &#34;&#34;&#34;Write the given bytes or bytearray object *b* to the socket
+        and return the number of bytes written.  This can be less than
+        len(b) if not all data could be written.  If the socket is
+        non-blocking and no bytes could be written None is returned.
+        &#34;&#34;&#34;
+        self._checkClosed()
+        self._checkWritable()
+        try:
+            return self._sock.send(b)
+        except error as e:
+            # XXX what about EINTR?
+            if e.args[0] in _blocking_errnos:
+                return None
+            raise
+
+    def readable(self):
+        &#34;&#34;&#34;True if the SocketIO is open for reading.
+        &#34;&#34;&#34;
+        if self.closed:
+            raise ValueError(&#34;I/O operation on closed socket.&#34;)
+        return self._reading
+
+    def writable(self):
+        &#34;&#34;&#34;True if the SocketIO is open for writing.
+        &#34;&#34;&#34;
+        if self.closed:
+            raise ValueError(&#34;I/O operation on closed socket.&#34;)
+        return self._writing
+
+    def seekable(self):
+        &#34;&#34;&#34;True if the SocketIO is open for seeking.
+        &#34;&#34;&#34;
+        if self.closed:
+            raise ValueError(&#34;I/O operation on closed socket.&#34;)
+        return super().seekable()
+
+    def fileno(self):
+        &#34;&#34;&#34;Return the file descriptor of the underlying socket.
+        &#34;&#34;&#34;
+        self._checkClosed()
+        return self._sock.fileno()
+
+    @property
+    def name(self):
+        if not self.closed:
+            return self.fileno()
+        else:
+            return -1
+
+    @property
+    def mode(self):
+        return self._mode
+
+    def close(self):
+        &#34;&#34;&#34;Close the SocketIO object.  This doesn&#39;t close the underlying
+        socket, except if all references to it have disappeared.
+        &#34;&#34;&#34;
+        if self.closed:
+            return
+        io.RawIOBase.close(self)
+        self._sock._decref_socketios()
+        self._sock = None
+
+
+def getfqdn(name=&#39;&#39;):
+    &#34;&#34;&#34;Get fully qualified domain name from name.
+
+    An empty argument is interpreted as meaning the local host.
+
+    First the hostname returned by gethostbyaddr() is checked, then
+    possibly existing aliases. In case no FQDN is available, hostname
+    from gethostname() is returned.
+    &#34;&#34;&#34;
+    name = name.strip()
+    if not name or name == &#39;0.0.0.0&#39;:
+        name = gethostname()
+    try:
+        hostname, aliases, ipaddrs = gethostbyaddr(name)
+    except error:
+        pass
+    else:
+        aliases.insert(0, hostname)
+        for name in aliases:
+            if &#39;.&#39; in name:
+                break
+        else:
+            name = hostname
+    return name
+
+
+_GLOBAL_DEFAULT_TIMEOUT = object()
+
+def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                      source_address=None):
+    &#34;&#34;&#34;Connect to *address* and return the socket object.
+
+    Convenience function.  Connect to *address* (a 2-tuple ``(host,
+    port)``) and return the socket object.  Passing the optional
+    *timeout* parameter will set the timeout on the socket instance
+    before attempting to connect.  If no *timeout* is supplied, the
+    global default timeout setting returned by :func:`getdefaulttimeout`
+    is used.  If *source_address* is set it must be a tuple of (host, port)
+    for the socket to bind as a source address before making the connection.
+    A host of &#39;&#39; or port 0 tells the OS to use the default.
+    &#34;&#34;&#34;
+
+    host, port = address
+    err = None
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+        af, socktype, proto, canonname, sa = res
+        sock = None
+        try:
+            sock = socket(af, socktype, proto)
+            if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                sock.settimeout(timeout)
+            if source_address:
+                sock.bind(source_address)
+            sock.connect(sa)
+            # Break explicitly a reference cycle
+            err = None
+            return sock
+
+        except error as _:
+            err = _
+            if sock is not None:
+                sock.close()
+
+    if err is not None:
+        raise err
+    else:
+        raise error(&#34;getaddrinfo returns an empty list&#34;)
+
+
+def has_dualstack_ipv6():
+    &#34;&#34;&#34;Return True if the platform supports creating a SOCK_STREAM socket
+    which can handle both AF_INET and AF_INET6 (IPv4 / IPv6) connections.
+    &#34;&#34;&#34;
+    if not has_ipv6 \
+            or not hasattr(_socket, &#39;IPPROTO_IPV6&#39;) \
+            or not hasattr(_socket, &#39;IPV6_V6ONLY&#39;):
+        return False
+    try:
+        with socket(AF_INET6, SOCK_STREAM) as sock:
+            sock.setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, 0)
+            return True
+    except error:
+        return False
+
+
+def create_server(address, *, family=AF_INET, backlog=None, reuse_port=False,
+                  dualstack_ipv6=False):
+    &#34;&#34;&#34;Convenience function which creates a SOCK_STREAM type socket
+    bound to *address* (a 2-tuple (host, port)) and return the socket
+    object.
+
+    *family* should be either AF_INET or AF_INET6.
+    *backlog* is the queue size passed to socket.listen().
+    *reuse_port* dictates whether to use the SO_REUSEPORT socket option.
+    *dualstack_ipv6*: if true and the platform supports it, it will
+    create an AF_INET6 socket able to accept both IPv4 or IPv6
+    connections. When false it will explicitly disable this option on
+    platforms that enable it by default (e.g. Linux).
+
+    &gt;&gt;&gt; with create_server((None, 8000)) as server:
+    ...     while True:
+    ...         conn, addr = server.accept()
+    ...         # handle new connection
+    &#34;&#34;&#34;
+    if reuse_port and not hasattr(_socket, &#34;SO_REUSEPORT&#34;):
+        raise ValueError(&#34;SO_REUSEPORT not supported on this platform&#34;)
+    if dualstack_ipv6:
+        if not has_dualstack_ipv6():
+            raise ValueError(&#34;dualstack_ipv6 not supported on this platform&#34;)
+        if family != AF_INET6:
+            raise ValueError(&#34;dualstack_ipv6 requires AF_INET6 family&#34;)
+    sock = socket(family, SOCK_STREAM)
+    try:
+        # Note about Windows. We don&#39;t set SO_REUSEADDR because:
+        # 1) It&#39;s unnecessary: bind() will succeed even in case of a
+        # previous closed socket on the same address and still in
+        # TIME_WAIT state.
+        # 2) If set, another socket is free to bind() on the same
+        # address, effectively preventing this one from accepting
+        # connections. Also, it may set the process in a state where
+        # it&#39;ll no longer respond to any signals or graceful kills.
+        # See: msdn2.microsoft.com/en-us/library/ms740621(VS.85).aspx
+        if os.name not in (&#39;nt&#39;, &#39;cygwin&#39;) and \
+                hasattr(_socket, &#39;SO_REUSEADDR&#39;):
+            try:
+                sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+            except error:
+                # Fail later on bind(), for platforms which may not
+                # support this option.
+                pass
+        if reuse_port:
+            sock.setsockopt(SOL_SOCKET, SO_REUSEPORT, 1)
+        if has_ipv6 and family == AF_INET6:
+            if dualstack_ipv6:
+                sock.setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, 0)
+            elif hasattr(_socket, &#34;IPV6_V6ONLY&#34;) and \
+                    hasattr(_socket, &#34;IPPROTO_IPV6&#34;):
+                sock.setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, 1)
+        try:
+            sock.bind(address)
+        except error as err:
+            msg = &#39;%s (while attempting to bind on address %r)&#39; % \
+                (err.strerror, address)
+            raise error(err.errno, msg) from None
+        if backlog is None:
+            sock.listen()
+        else:
+            sock.listen(backlog)
+        return sock
+    except error:
+        sock.close()
+        raise
+
+
+def getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+    &#34;&#34;&#34;Resolve host and port into list of address info entries.
+
+    Translate the host/port argument into a sequence of 5-tuples that contain
+    all the necessary arguments for creating a socket connected to that service.
+    host is a domain name, a string representation of an IPv4/v6 address or
+    None. port is a string service name such as &#39;http&#39;, a numeric port number or
+    None. By passing None as the value of host and port, you can pass NULL to
+    the underlying C API.
+
+    The family, type and proto arguments can be optionally specified in order to
+    narrow the list of addresses returned. Passing zero as a value for each of
+    these arguments selects the full range of results.
+    &#34;&#34;&#34;
+    # We override this function since we want to translate the numeric family
+    # and socket type values to enum constants.
+    addrlist = []
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+        af, socktype, proto, canonname, sa = res
+        addrlist.append((_intenum_converter(af, AddressFamily),
+                         _intenum_converter(socktype, SocketKind),
+                         proto, canonname, sa))
+    return addrlist</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="socket.close"><code class="name flex">
+<span>def <span class="ident">close</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>close(integer) -&gt; None</p>
+<p>Close an integer socket file descriptor.
+This is like os.close(), but for
+sockets; on some platforms os.close() won't work for socket file descriptors.</p></section>
+</dd>
+<dt id="socket.create_connection"><code class="name flex">
+<span>def <span class="ident">create_connection</span></span>(<span>address, timeout=&lt;object object&gt;, source_address=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Connect to <em>address</em> and return the socket object.</p>
+<p>Convenience function.
+Connect to <em>address</em> (a 2-tuple <code>(host,
+port)</code>) and return the socket object.
+Passing the optional
+<em>timeout</em> parameter will set the timeout on the socket instance
+before attempting to connect.
+If no <em>timeout</em> is supplied, the
+global default timeout setting returned by :func:<code>getdefaulttimeout</code>
+is used.
+If <em>source_address</em> is set it must be a tuple of (host, port)
+for the socket to bind as a source address before making the connection.
+A host of '' or port 0 tells the OS to use the default.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                      source_address=None):
+    &#34;&#34;&#34;Connect to *address* and return the socket object.
+
+    Convenience function.  Connect to *address* (a 2-tuple ``(host,
+    port)``) and return the socket object.  Passing the optional
+    *timeout* parameter will set the timeout on the socket instance
+    before attempting to connect.  If no *timeout* is supplied, the
+    global default timeout setting returned by :func:`getdefaulttimeout`
+    is used.  If *source_address* is set it must be a tuple of (host, port)
+    for the socket to bind as a source address before making the connection.
+    A host of &#39;&#39; or port 0 tells the OS to use the default.
+    &#34;&#34;&#34;
+
+    host, port = address
+    err = None
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+        af, socktype, proto, canonname, sa = res
+        sock = None
+        try:
+            sock = socket(af, socktype, proto)
+            if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                sock.settimeout(timeout)
+            if source_address:
+                sock.bind(source_address)
+            sock.connect(sa)
+            # Break explicitly a reference cycle
+            err = None
+            return sock
+
+        except error as _:
+            err = _
+            if sock is not None:
+                sock.close()
+
+    if err is not None:
+        raise err
+    else:
+        raise error(&#34;getaddrinfo returns an empty list&#34;)</code></pre>
+</details>
+</dd>
+<dt id="socket.create_server"><code class="name flex">
+<span>def <span class="ident">create_server</span></span>(<span>address, *, family=AddressFamily.AF_INET, backlog=None, reuse_port=False, dualstack_ipv6=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Convenience function which creates a SOCK_STREAM type socket
+bound to <em>address</em> (a 2-tuple (host, port)) and return the socket
+object.</p>
+<p><em>family</em> should be either AF_INET or AF_INET6.
+<em>backlog</em> is the queue size passed to socket.listen().
+<em>reuse_port</em> dictates whether to use the SO_REUSEPORT socket option.
+<em>dualstack_ipv6</em>: if true and the platform supports it, it will
+create an AF_INET6 socket able to accept both IPv4 or IPv6
+connections. When false it will explicitly disable this option on
+platforms that enable it by default (e.g. Linux).</p>
+<pre><code>&gt;&gt;&gt; with create_server((None, 8000)) as server:
+...     while True:
+...         conn, addr = server.accept()
+...         # handle new connection
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_server(address, *, family=AF_INET, backlog=None, reuse_port=False,
+                  dualstack_ipv6=False):
+    &#34;&#34;&#34;Convenience function which creates a SOCK_STREAM type socket
+    bound to *address* (a 2-tuple (host, port)) and return the socket
+    object.
+
+    *family* should be either AF_INET or AF_INET6.
+    *backlog* is the queue size passed to socket.listen().
+    *reuse_port* dictates whether to use the SO_REUSEPORT socket option.
+    *dualstack_ipv6*: if true and the platform supports it, it will
+    create an AF_INET6 socket able to accept both IPv4 or IPv6
+    connections. When false it will explicitly disable this option on
+    platforms that enable it by default (e.g. Linux).
+
+    &gt;&gt;&gt; with create_server((None, 8000)) as server:
+    ...     while True:
+    ...         conn, addr = server.accept()
+    ...         # handle new connection
+    &#34;&#34;&#34;
+    if reuse_port and not hasattr(_socket, &#34;SO_REUSEPORT&#34;):
+        raise ValueError(&#34;SO_REUSEPORT not supported on this platform&#34;)
+    if dualstack_ipv6:
+        if not has_dualstack_ipv6():
+            raise ValueError(&#34;dualstack_ipv6 not supported on this platform&#34;)
+        if family != AF_INET6:
+            raise ValueError(&#34;dualstack_ipv6 requires AF_INET6 family&#34;)
+    sock = socket(family, SOCK_STREAM)
+    try:
+        # Note about Windows. We don&#39;t set SO_REUSEADDR because:
+        # 1) It&#39;s unnecessary: bind() will succeed even in case of a
+        # previous closed socket on the same address and still in
+        # TIME_WAIT state.
+        # 2) If set, another socket is free to bind() on the same
+        # address, effectively preventing this one from accepting
+        # connections. Also, it may set the process in a state where
+        # it&#39;ll no longer respond to any signals or graceful kills.
+        # See: msdn2.microsoft.com/en-us/library/ms740621(VS.85).aspx
+        if os.name not in (&#39;nt&#39;, &#39;cygwin&#39;) and \
+                hasattr(_socket, &#39;SO_REUSEADDR&#39;):
+            try:
+                sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+            except error:
+                # Fail later on bind(), for platforms which may not
+                # support this option.
+                pass
+        if reuse_port:
+            sock.setsockopt(SOL_SOCKET, SO_REUSEPORT, 1)
+        if has_ipv6 and family == AF_INET6:
+            if dualstack_ipv6:
+                sock.setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, 0)
+            elif hasattr(_socket, &#34;IPV6_V6ONLY&#34;) and \
+                    hasattr(_socket, &#34;IPPROTO_IPV6&#34;):
+                sock.setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, 1)
+        try:
+            sock.bind(address)
+        except error as err:
+            msg = &#39;%s (while attempting to bind on address %r)&#39; % \
+                (err.strerror, address)
+            raise error(err.errno, msg) from None
+        if backlog is None:
+            sock.listen()
+        else:
+            sock.listen(backlog)
+        return sock
+    except error:
+        sock.close()
+        raise</code></pre>
+</details>
+</dd>
+<dt id="socket.dup"><code class="name flex">
+<span>def <span class="ident">dup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>dup(integer) -&gt; integer</p>
+<p>Duplicate an integer socket file descriptor.
+This is like os.dup(), but for
+sockets; on some platforms os.dup() won't work for socket file descriptors.</p></section>
+</dd>
+<dt id="socket.fromfd"><code class="name flex">
+<span>def <span class="ident">fromfd</span></span>(<span>fd, family, type, proto=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>fromfd(fd, family, type[, proto]) -&gt; socket object</p>
+<p>Create a socket object from a duplicate of the given file
+descriptor.
+The remaining arguments are the same as for socket().</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fromfd(fd, family, type, proto=0):
+    &#34;&#34;&#34; fromfd(fd, family, type[, proto]) -&gt; socket object
+
+    Create a socket object from a duplicate of the given file
+    descriptor.  The remaining arguments are the same as for socket().
+    &#34;&#34;&#34;
+    nfd = dup(fd)
+    return socket(family, type, proto, nfd)</code></pre>
+</details>
+</dd>
+<dt id="socket.fromshare"><code class="name flex">
+<span>def <span class="ident">fromshare</span></span>(<span>info)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>fromshare(info) -&gt; socket object</p>
+<p>Create a socket object from the bytes object returned by
+socket.share(pid).</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fromshare(info):
+    &#34;&#34;&#34; fromshare(info) -&gt; socket object
+
+    Create a socket object from the bytes object returned by
+    socket.share(pid).
+    &#34;&#34;&#34;
+    return socket(0, 0, 0, info)</code></pre>
+</details>
+</dd>
+<dt id="socket.getaddrinfo"><code class="name flex">
+<span>def <span class="ident">getaddrinfo</span></span>(<span>host, port, family=0, type=0, proto=0, flags=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Resolve host and port into list of address info entries.</p>
+<p>Translate the host/port argument into a sequence of 5-tuples that contain
+all the necessary arguments for creating a socket connected to that service.
+host is a domain name, a string representation of an IPv4/v6 address or
+None. port is a string service name such as 'http', a numeric port number or
+None. By passing None as the value of host and port, you can pass NULL to
+the underlying C API.</p>
+<p>The family, type and proto arguments can be optionally specified in order to
+narrow the list of addresses returned. Passing zero as a value for each of
+these arguments selects the full range of results.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+    &#34;&#34;&#34;Resolve host and port into list of address info entries.
+
+    Translate the host/port argument into a sequence of 5-tuples that contain
+    all the necessary arguments for creating a socket connected to that service.
+    host is a domain name, a string representation of an IPv4/v6 address or
+    None. port is a string service name such as &#39;http&#39;, a numeric port number or
+    None. By passing None as the value of host and port, you can pass NULL to
+    the underlying C API.
+
+    The family, type and proto arguments can be optionally specified in order to
+    narrow the list of addresses returned. Passing zero as a value for each of
+    these arguments selects the full range of results.
+    &#34;&#34;&#34;
+    # We override this function since we want to translate the numeric family
+    # and socket type values to enum constants.
+    addrlist = []
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+        af, socktype, proto, canonname, sa = res
+        addrlist.append((_intenum_converter(af, AddressFamily),
+                         _intenum_converter(socktype, SocketKind),
+                         proto, canonname, sa))
+    return addrlist</code></pre>
+</details>
+</dd>
+<dt id="socket.getdefaulttimeout"><code class="name flex">
+<span>def <span class="ident">getdefaulttimeout</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getdefaulttimeout() -&gt; timeout</p>
+<p>Returns the default timeout in seconds (float) for new socket objects.
+A value of None indicates that new socket objects have no timeout.
+When the socket module is first imported, the default is None.</p></section>
+</dd>
+<dt id="socket.getfqdn"><code class="name flex">
+<span>def <span class="ident">getfqdn</span></span>(<span>name='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get fully qualified domain name from name.</p>
+<p>An empty argument is interpreted as meaning the local host.</p>
+<p>First the hostname returned by gethostbyaddr() is checked, then
+possibly existing aliases. In case no FQDN is available, hostname
+from gethostname() is returned.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getfqdn(name=&#39;&#39;):
+    &#34;&#34;&#34;Get fully qualified domain name from name.
+
+    An empty argument is interpreted as meaning the local host.
+
+    First the hostname returned by gethostbyaddr() is checked, then
+    possibly existing aliases. In case no FQDN is available, hostname
+    from gethostname() is returned.
+    &#34;&#34;&#34;
+    name = name.strip()
+    if not name or name == &#39;0.0.0.0&#39;:
+        name = gethostname()
+    try:
+        hostname, aliases, ipaddrs = gethostbyaddr(name)
+    except error:
+        pass
+    else:
+        aliases.insert(0, hostname)
+        for name in aliases:
+            if &#39;.&#39; in name:
+                break
+        else:
+            name = hostname
+    return name</code></pre>
+</details>
+</dd>
+<dt id="socket.gethostbyaddr"><code class="name flex">
+<span>def <span class="ident">gethostbyaddr</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>gethostbyaddr(host) -&gt; (name, aliaslist, addresslist)</p>
+<p>Return the true host name, a list of aliases, and a list of IP addresses,
+for a host.
+The host argument is a string giving a host name or IP number.</p></section>
+</dd>
+<dt id="socket.gethostbyname"><code class="name flex">
+<span>def <span class="ident">gethostbyname</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>gethostbyname(host) -&gt; address</p>
+<p>Return the IP address (a string of the form '255.255.255.255') for a host.</p></section>
+</dd>
+<dt id="socket.gethostbyname_ex"><code class="name flex">
+<span>def <span class="ident">gethostbyname_ex</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>gethostbyname_ex(host) -&gt; (name, aliaslist, addresslist)</p>
+<p>Return the true host name, a list of aliases, and a list of IP addresses,
+for a host.
+The host argument is a string giving a host name or IP number.</p></section>
+</dd>
+<dt id="socket.gethostname"><code class="name flex">
+<span>def <span class="ident">gethostname</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>gethostname() -&gt; string</p>
+<p>Return the current host name.</p></section>
+</dd>
+<dt id="socket.getnameinfo"><code class="name flex">
+<span>def <span class="ident">getnameinfo</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getnameinfo(sockaddr, flags) &ndash;&gt; (host, port)</p>
+<p>Get host and port for a sockaddr.</p></section>
+</dd>
+<dt id="socket.getprotobyname"><code class="name flex">
+<span>def <span class="ident">getprotobyname</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getprotobyname(name) -&gt; integer</p>
+<p>Return the protocol number for the named protocol.
+(Rarely used.)</p></section>
+</dd>
+<dt id="socket.getservbyname"><code class="name flex">
+<span>def <span class="ident">getservbyname</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getservbyname(servicename[, protocolname]) -&gt; integer</p>
+<p>Return a port number from a service name and protocol name.
+The optional protocol name, if given, should be 'tcp' or 'udp',
+otherwise any protocol will match.</p></section>
+</dd>
+<dt id="socket.getservbyport"><code class="name flex">
+<span>def <span class="ident">getservbyport</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getservbyport(port[, protocolname]) -&gt; string</p>
+<p>Return the service name from a port number and protocol name.
+The optional protocol name, if given, should be 'tcp' or 'udp',
+otherwise any protocol will match.</p></section>
+</dd>
+<dt id="socket.has_dualstack_ipv6"><code class="name flex">
+<span>def <span class="ident">has_dualstack_ipv6</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return True if the platform supports creating a SOCK_STREAM socket
+which can handle both AF_INET and AF_INET6 (IPv4 / IPv6) connections.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_dualstack_ipv6():
+    &#34;&#34;&#34;Return True if the platform supports creating a SOCK_STREAM socket
+    which can handle both AF_INET and AF_INET6 (IPv4 / IPv6) connections.
+    &#34;&#34;&#34;
+    if not has_ipv6 \
+            or not hasattr(_socket, &#39;IPPROTO_IPV6&#39;) \
+            or not hasattr(_socket, &#39;IPV6_V6ONLY&#39;):
+        return False
+    try:
+        with socket(AF_INET6, SOCK_STREAM) as sock:
+            sock.setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, 0)
+            return True
+    except error:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="socket.htonl"><code class="name flex">
+<span>def <span class="ident">htonl</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>htonl(integer) -&gt; integer</p>
+<p>Convert a 32-bit integer from host to network byte order.</p></section>
+</dd>
+<dt id="socket.htons"><code class="name flex">
+<span>def <span class="ident">htons</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>htons(integer) -&gt; integer</p>
+<p>Convert a 16-bit unsigned integer from host to network byte order.
+Note that in case the received integer does not fit in 16-bit unsigned
+integer, but does fit in a positive C int, it is silently truncated to
+16-bit unsigned integer.
+However, this silent truncation feature is deprecated, and will raise an
+exception in future versions of Python.</p></section>
+</dd>
+<dt id="socket.if_indextoname"><code class="name flex">
+<span>def <span class="ident">if_indextoname</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>if_indextoname(if_index)</p>
+<p>Returns the interface name corresponding to the interface index if_index.</p></section>
+</dd>
+<dt id="socket.if_nameindex"><code class="name flex">
+<span>def <span class="ident">if_nameindex</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>if_nameindex()</p>
+<p>Returns a list of network interface information (index, name) tuples.</p></section>
+</dd>
+<dt id="socket.if_nametoindex"><code class="name flex">
+<span>def <span class="ident">if_nametoindex</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>if_nametoindex(if_name)</p>
+<p>Returns the interface index corresponding to the interface name if_name.</p></section>
+</dd>
+<dt id="socket.inet_aton"><code class="name flex">
+<span>def <span class="ident">inet_aton</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>inet_aton(string) -&gt; bytes giving packed 32-bit IP representation</p>
+<p>Convert an IP address in string format (123.45.67.89) to the 32-bit packed
+binary format used in low-level network functions.</p></section>
+</dd>
+<dt id="socket.inet_ntoa"><code class="name flex">
+<span>def <span class="ident">inet_ntoa</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>inet_ntoa(packed_ip) -&gt; ip_address_string</p>
+<p>Convert an IP address from 32-bit packed binary format to string format</p></section>
+</dd>
+<dt id="socket.inet_ntop"><code class="name flex">
+<span>def <span class="ident">inet_ntop</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>inet_ntop(af, packed_ip) -&gt; string formatted IP address</p>
+<p>Convert a packed IP address of the given family to string format.</p></section>
+</dd>
+<dt id="socket.inet_pton"><code class="name flex">
+<span>def <span class="ident">inet_pton</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>inet_pton(af, ip) -&gt; packed IP address string</p>
+<p>Convert an IP address from string format to a packed string suitable
+for use with low-level network functions.</p></section>
+</dd>
+<dt id="socket.ntohl"><code class="name flex">
+<span>def <span class="ident">ntohl</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ntohl(integer) -&gt; integer</p>
+<p>Convert a 32-bit integer from network to host byte order.</p></section>
+</dd>
+<dt id="socket.ntohs"><code class="name flex">
+<span>def <span class="ident">ntohs</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ntohs(integer) -&gt; integer</p>
+<p>Convert a 16-bit unsigned integer from network to host byte order.
+Note that in case the received integer does not fit in 16-bit unsigned
+integer, but does fit in a positive C int, it is silently truncated to
+16-bit unsigned integer.
+However, this silent truncation feature is deprecated, and will raise an
+exception in future versions of Python.</p></section>
+</dd>
+<dt id="socket.setdefaulttimeout"><code class="name flex">
+<span>def <span class="ident">setdefaulttimeout</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>setdefaulttimeout(timeout)</p>
+<p>Set the default timeout in seconds (float) for new socket objects.
+A value of None indicates that new socket objects have no timeout.
+When the socket module is first imported, the default is None.</p></section>
+</dd>
+<dt id="socket.socketpair"><code class="name flex">
+<span>def <span class="ident">socketpair</span></span>(<span>family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>socketpair([family[, type[, proto]]]) -&gt; (socket object, socket object)
+Create a pair of socket objects from the sockets returned by the platform
+socketpair() function.
+The arguments are the same as for socket() except the default family is AF_UNIX
+if defined on the platform; otherwise, the default is AF_INET.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def socketpair(family=AF_INET, type=SOCK_STREAM, proto=0):
+    if family == AF_INET:
+        host = _LOCALHOST
+    elif family == AF_INET6:
+        host = _LOCALHOST_V6
+    else:
+        raise ValueError(&#34;Only AF_INET and AF_INET6 socket address families &#34;
+                         &#34;are supported&#34;)
+    if type != SOCK_STREAM:
+        raise ValueError(&#34;Only SOCK_STREAM socket type is supported&#34;)
+    if proto != 0:
+        raise ValueError(&#34;Only protocol zero is supported&#34;)
+
+    # We create a connected TCP socket. Note the trick with
+    # setblocking(False) that prevents us from having to create a thread.
+    lsock = socket(family, type, proto)
+    try:
+        lsock.bind((host, 0))
+        lsock.listen()
+        # On IPv6, ignore flow_info and scope_id
+        addr, port = lsock.getsockname()[:2]
+        csock = socket(family, type, proto)
+        try:
+            csock.setblocking(False)
+            try:
+                csock.connect((addr, port))
+            except (BlockingIOError, InterruptedError):
+                pass
+            csock.setblocking(True)
+            ssock, _ = lsock.accept()
+        except:
+            csock.close()
+            raise
+    finally:
+        lsock.close()
+    return (ssock, csock)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="socket.AddressFamily"><code class="flex name class">
+<span>class <span class="ident">AddressFamily</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="socket.AddressFamily.AF_APPLETALK"><code class="name">var <span class="ident">AF_APPLETALK</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.AddressFamily.AF_INET"><code class="name">var <span class="ident">AF_INET</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.AddressFamily.AF_INET6"><code class="name">var <span class="ident">AF_INET6</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.AddressFamily.AF_IPX"><code class="name">var <span class="ident">AF_IPX</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.AddressFamily.AF_IRDA"><code class="name">var <span class="ident">AF_IRDA</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.AddressFamily.AF_SNA"><code class="name">var <span class="ident">AF_SNA</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.AddressFamily.AF_UNSPEC"><code class="name">var <span class="ident">AF_UNSPEC</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+</dl>
+</dd>
+<dt id="socket.SocketKind"><code class="flex name class">
+<span>class <span class="ident">SocketKind</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="socket.SocketKind.SOCK_DGRAM"><code class="name">var <span class="ident">SOCK_DGRAM</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.SocketKind.SOCK_RAW"><code class="name">var <span class="ident">SOCK_RAW</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.SocketKind.SOCK_RDM"><code class="name">var <span class="ident">SOCK_RDM</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.SocketKind.SOCK_SEQPACKET"><code class="name">var <span class="ident">SOCK_SEQPACKET</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+<dt id="socket.SocketKind.SOCK_STREAM"><code class="name">var <span class="ident">SOCK_STREAM</span></code></dt>
+<dd>
+<section class="desc"><p>An enumeration.</p></section>
+</dd>
+</dl>
+</dd>
+<dt id="socket.socket"><code class="flex name class">
+<span>class <span class="ident">SocketType</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>socket(family=AF_INET, type=SOCK_STREAM, proto=0) -&gt; socket object
+socket(family=-1, type=-1, proto=-1, fileno=None) -&gt; socket object</p>
+<p>Open a socket of the given type.
+The family argument specifies the
+address family; it defaults to AF_INET.
+The type argument specifies
+whether this is a stream (SOCK_STREAM, this is the default)
+or datagram (SOCK_DGRAM) socket.
+The protocol argument defaults to 0,
+specifying the default protocol.
+Keyword arguments are accepted.
+The socket is created as non-inheritable.</p>
+<p>When a fileno is passed in, family, type and proto are auto-detected,
+unless they are explicitly set.</p>
+<p>A socket object represents one endpoint of a network connection.</p>
+<p>Methods of socket objects (keyword arguments not allowed):</p>
+<p>_accept() &ndash; accept connection, returning new socket fd and client address
+bind(addr) &ndash; bind the socket to a local address
+close() &ndash; close the socket
+connect(addr) &ndash; connect the socket to a remote address
+connect_ex(addr) &ndash; connect, return an error code instead of an exception
+dup() &ndash; return a new socket fd duplicated from fileno()
+fileno() &ndash; return underlying file descriptor
+getpeername() &ndash; return remote address [*]
+getsockname() &ndash; return local address
+getsockopt(level, optname[, buflen]) &ndash; get socket options
+gettimeout() &ndash; return timeout or None
+listen([n]) &ndash; start listening for incoming connections
+recv(buflen[, flags]) &ndash; receive data
+recv_into(buffer[, nbytes[, flags]]) &ndash; receive data (into a buffer)
+recvfrom(buflen[, flags]) &ndash; receive data and sender's address
+recvfrom_into(buffer[, nbytes, [, flags])
+&ndash; receive data and sender's address (into a buffer)
+sendall(data[, flags]) &ndash; send all data
+send(data[, flags]) &ndash; send data, may not send all of it
+sendto(data[, flags], addr) &ndash; send data to a given address
+setblocking(0 | 1) &ndash; set or clear the blocking I/O flag
+getblocking() &ndash; return True if socket is blocking, False if non-blocking
+setsockopt(level, optname, value[, optlen]) &ndash; set socket options
+settimeout(None | float) &ndash; set or clear the timeout
+shutdown(how) &ndash; shut down traffic in one or both directions
+if_nameindex() &ndash; return all network interface indices and names
+if_nametoindex(name) &ndash; return the corresponding interface index
+if_indextoname(index) &ndash; return the corresponding interface name</p>
+<p>[*] not available on all platforms!</p></section>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="socket.socket" href="#socket.socket">socket</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="socket.socket.family"><code class="name">var <span class="ident">family</span></code></dt>
+<dd>
+<section class="desc"><p>the socket family</p></section>
+</dd>
+<dt id="socket.socket.proto"><code class="name">var <span class="ident">proto</span></code></dt>
+<dd>
+<section class="desc"><p>the socket protocol</p></section>
+</dd>
+<dt id="socket.socket.timeout"><code class="name">var <span class="ident">timeout</span></code></dt>
+<dd>
+<section class="desc"><p>the socket timeout</p></section>
+</dd>
+<dt id="socket.socket.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"><p>the socket type</p></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="socket.socket.bind"><code class="name flex">
+<span>def <span class="ident">bind</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>bind(address)</p>
+<p>Bind the socket to a local address.
+For IP sockets, the address is a
+pair (host, port); the host must refer to the local host. For raw packet
+sockets the address is a tuple (ifname, proto [,pkttype [,hatype [,addr]]])</p></section>
+</dd>
+<dt id="socket.socket.close"><code class="name flex">
+<span>def <span class="ident">close</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>close()</p>
+<p>Close the socket.
+It cannot be used after this call.</p></section>
+</dd>
+<dt id="socket.socket.connect"><code class="name flex">
+<span>def <span class="ident">connect</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>connect(address)</p>
+<p>Connect the socket to a remote address.
+For IP sockets, the address
+is a pair (host, port).</p></section>
+</dd>
+<dt id="socket.socket.connect_ex"><code class="name flex">
+<span>def <span class="ident">connect_ex</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>connect_ex(address) -&gt; errno</p>
+<p>This is like connect(address), but returns an error code (the errno value)
+instead of raising an exception when an error occurs.</p></section>
+</dd>
+<dt id="socket.socket.detach"><code class="name flex">
+<span>def <span class="ident">detach</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>detach()</p>
+<p>Close the socket object without closing the underlying file descriptor.
+The object cannot be used after this call, but the file descriptor
+can be reused for other purposes.
+The file descriptor is returned.</p></section>
+</dd>
+<dt id="socket.socket.fileno"><code class="name flex">
+<span>def <span class="ident">fileno</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>fileno() -&gt; integer</p>
+<p>Return the integer file descriptor of the socket.</p></section>
+</dd>
+<dt id="socket.socket.getblocking"><code class="name flex">
+<span>def <span class="ident">getblocking</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getblocking()</p>
+<p>Returns True if socket is in blocking mode, or False if it
+is in non-blocking mode.</p></section>
+</dd>
+<dt id="socket.socket.getpeername"><code class="name flex">
+<span>def <span class="ident">getpeername</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getpeername() -&gt; address info</p>
+<p>Return the address of the remote endpoint.
+For IP sockets, the address
+info is a pair (hostaddr, port).</p></section>
+</dd>
+<dt id="socket.socket.getsockname"><code class="name flex">
+<span>def <span class="ident">getsockname</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getsockname() -&gt; address info</p>
+<p>Return the address of the local endpoint.
+For IP sockets, the address
+info is a pair (hostaddr, port).</p></section>
+</dd>
+<dt id="socket.socket.getsockopt"><code class="name flex">
+<span>def <span class="ident">getsockopt</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>getsockopt(level, option[, buffersize]) -&gt; value</p>
+<p>Get a socket option.
+See the Unix manual for level and option.
+If a nonzero buffersize argument is given, the return value is a
+string of that length; otherwise it is an integer.</p></section>
+</dd>
+<dt id="socket.socket.gettimeout"><code class="name flex">
+<span>def <span class="ident">gettimeout</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>gettimeout() -&gt; timeout</p>
+<p>Returns the timeout in seconds (float) associated with socket
+operations. A timeout of None indicates that timeouts on socket
+operations are disabled.</p></section>
+</dd>
+<dt id="socket.socket.ioctl"><code class="name flex">
+<span>def <span class="ident">ioctl</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ioctl(cmd, option) -&gt; long</p>
+<p>Control the socket with WSAIoctl syscall. Currently supported 'cmd' values are
+SIO_RCVALL:
+'option' must be one of the socket.RCVALL_* constants.
+SIO_KEEPALIVE_VALS:
+'option' is a tuple of (onoff, timeout, interval).
+SIO_LOOPBACK_FAST_PATH: 'option' is a boolean value, and is disabled by default</p></section>
+</dd>
+<dt id="socket.socket.listen"><code class="name flex">
+<span>def <span class="ident">listen</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>listen([backlog])</p>
+<p>Enable a server to accept connections.
+If backlog is specified, it must be
+at least 0 (if it is lower, it is set to 0); it specifies the number of
+unaccepted connections that the system will allow before refusing new
+connections. If not specified, a default reasonable value is chosen.</p></section>
+</dd>
+<dt id="socket.socket.recv"><code class="name flex">
+<span>def <span class="ident">recv</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>recv(buffersize[, flags]) -&gt; data</p>
+<p>Receive up to buffersize bytes from the socket.
+For the optional flags
+argument, see the Unix manual.
+When no data is available, block until
+at least one byte is available or until the remote end is closed.
+When
+the remote end is closed and all data is read, return the empty string.</p></section>
+</dd>
+<dt id="socket.socket.recv_into"><code class="name flex">
+<span>def <span class="ident">recv_into</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>recv_into(buffer, [nbytes[, flags]]) -&gt; nbytes_read</p>
+<p>A version of recv() that stores its data into a buffer rather than creating
+a new string.
+Receive up to buffersize bytes from the socket.
+If buffersize
+is not specified (or 0), receive up to the size available in the given buffer.</p>
+<p>See recv() for documentation about the flags.</p></section>
+</dd>
+<dt id="socket.socket.recvfrom"><code class="name flex">
+<span>def <span class="ident">recvfrom</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>recvfrom(buffersize[, flags]) -&gt; (data, address info)</p>
+<p>Like recv(buffersize, flags) but also return the sender's address info.</p></section>
+</dd>
+<dt id="socket.socket.recvfrom_into"><code class="name flex">
+<span>def <span class="ident">recvfrom_into</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>recvfrom_into(buffer[, nbytes[, flags]]) -&gt; (nbytes, address info)</p>
+<p>Like recv_into(buffer[, nbytes[, flags]]) but also return the sender's address info.</p></section>
+</dd>
+<dt id="socket.socket.send"><code class="name flex">
+<span>def <span class="ident">send</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>send(data[, flags]) -&gt; count</p>
+<p>Send a data string to the socket.
+For the optional flags
+argument, see the Unix manual.
+Return the number of bytes
+sent; this may be less than len(data) if the network is busy.</p></section>
+</dd>
+<dt id="socket.socket.sendall"><code class="name flex">
+<span>def <span class="ident">sendall</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>sendall(data[, flags])</p>
+<p>Send a data string to the socket.
+For the optional flags
+argument, see the Unix manual.
+This calls send() repeatedly
+until all data is sent.
+If an error occurs, it's impossible
+to tell how much data has been sent.</p></section>
+</dd>
+<dt id="socket.socket.sendto"><code class="name flex">
+<span>def <span class="ident">sendto</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>sendto(data[, flags], address) -&gt; count</p>
+<p>Like send(data, flags) but allows specifying the destination address.
+For IP sockets, the address is a pair (hostaddr, port).</p></section>
+</dd>
+<dt id="socket.socket.setblocking"><code class="name flex">
+<span>def <span class="ident">setblocking</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>setblocking(flag)</p>
+<p>Set the socket to blocking (flag is true) or non-blocking (false).
+setblocking(True) is equivalent to settimeout(None);
+setblocking(False) is equivalent to settimeout(0.0).</p></section>
+</dd>
+<dt id="socket.socket.setsockopt"><code class="name flex">
+<span>def <span class="ident">setsockopt</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>setsockopt(level, option, value: int)
+setsockopt(level, option, value: buffer)
+setsockopt(level, option, None, optlen: int)</p>
+<p>Set a socket option.
+See the Unix manual for level and option.
+The value argument can either be an integer, a string buffer, or
+None, optlen.</p></section>
+</dd>
+<dt id="socket.socket.settimeout"><code class="name flex">
+<span>def <span class="ident">settimeout</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>settimeout(timeout)</p>
+<p>Set a timeout on socket operations.
+'timeout' can be a float,
+giving in seconds, or None.
+Setting a timeout of None disables
+the timeout feature and is equivalent to setblocking(1).
+Setting a timeout of zero is the same as setblocking(0).</p></section>
+</dd>
+<dt id="socket.socket.share"><code class="name flex">
+<span>def <span class="ident">share</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>share(process_id) -&gt; bytes</p>
+<p>Share the socket with another process.
+The target process id
+must be provided and the resulting bytes object passed to the target
+process.
+There the shared socket can be instantiated by calling
+socket.fromshare().</p></section>
+</dd>
+<dt id="socket.socket.shutdown"><code class="name flex">
+<span>def <span class="ident">shutdown</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>shutdown(flag)</p>
+<p>Shut down the reading side of the socket (flag == SHUT_RD), the writing side
+of the socket (flag == SHUT_WR), or both ends (flag == SHUT_RDWR).</p></section>
+</dd>
+</dl>
+</dd>
+<dt id="socket.OSError"><code class="flex name class">
+<span>class <span class="ident">error</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base class for I/O related errors.</p></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li>builtins.ConnectionError</li>
+<li>builtins.BlockingIOError</li>
+<li>builtins.ChildProcessError</li>
+<li>builtins.FileExistsError</li>
+<li>builtins.FileNotFoundError</li>
+<li>builtins.IsADirectoryError</li>
+<li>builtins.NotADirectoryError</li>
+<li>builtins.InterruptedError</li>
+<li>builtins.PermissionError</li>
+<li>builtins.ProcessLookupError</li>
+<li>builtins.TimeoutError</li>
+<li>io.UnsupportedOperation</li>
+<li>shutil.Error</li>
+<li>shutil.SpecialFileError</li>
+<li>shutil.ExecError</li>
+<li>shutil.ReadError</li>
+<li><a title="socket.herror" href="#socket.herror">herror</a></li>
+<li><a title="socket.gaierror" href="#socket.gaierror">gaierror</a></li>
+<li><a title="socket.timeout" href="#socket.timeout">timeout</a></li>
+<li>ssl.SSLError</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="socket.OSError.characters_written"><code class="name">var <span class="ident">characters_written</span></code></dt>
+<dd>
+<section class="desc"><p>Return an attribute of instance, which is of type owner.</p></section>
+</dd>
+<dt id="socket.OSError.errno"><code class="name">var <span class="ident">errno</span></code></dt>
+<dd>
+<section class="desc"><p>POSIX exception code</p></section>
+</dd>
+<dt id="socket.OSError.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<section class="desc"><p>exception filename</p></section>
+</dd>
+<dt id="socket.OSError.filename2"><code class="name">var <span class="ident">filename2</span></code></dt>
+<dd>
+<section class="desc"><p>second exception filename</p></section>
+</dd>
+<dt id="socket.OSError.strerror"><code class="name">var <span class="ident">strerror</span></code></dt>
+<dd>
+<section class="desc"><p>exception strerror</p></section>
+</dd>
+<dt id="socket.OSError.winerror"><code class="name">var <span class="ident">winerror</span></code></dt>
+<dd>
+<section class="desc"><p>Win32 exception code</p></section>
+</dd>
+</dl>
+</dd>
+<dt id="socket.gaierror"><code class="flex name class">
+<span>class <span class="ident">gaierror</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base class for I/O related errors.</p></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.OSError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="socket.herror"><code class="flex name class">
+<span>class <span class="ident">herror</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base class for I/O related errors.</p></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.OSError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="socket.socket"><code class="flex name class">
+<span>class <span class="ident">socket</span></span>
+<span>(</span><span>family=-1, type=-1, proto=-1, fileno=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A subclass of _socket.socket adding the makefile() method.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class socket(_socket.socket):
+
+    &#34;&#34;&#34;A subclass of _socket.socket adding the makefile() method.&#34;&#34;&#34;
+
+    __slots__ = [&#34;__weakref__&#34;, &#34;_io_refs&#34;, &#34;_closed&#34;]
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they&#39;re just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+        _socket.socket.__init__(self, family, type, proto, fileno)
+        self._io_refs = 0
+        self._closed = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        if not self._closed:
+            self.close()
+
+    def __repr__(self):
+        &#34;&#34;&#34;Wrap __repr__() to reveal the real class name and socket
+        address(es).
+        &#34;&#34;&#34;
+        closed = getattr(self, &#39;_closed&#39;, False)
+        s = &#34;&lt;%s.%s%s fd=%i, family=%s, type=%s, proto=%i&#34; \
+            % (self.__class__.__module__,
+               self.__class__.__qualname__,
+               &#34; [closed]&#34; if closed else &#34;&#34;,
+               self.fileno(),
+               self.family,
+               self.type,
+               self.proto)
+        if not closed:
+            try:
+                laddr = self.getsockname()
+                if laddr:
+                    s += &#34;, laddr=%s&#34; % str(laddr)
+            except error:
+                pass
+            try:
+                raddr = self.getpeername()
+                if raddr:
+                    s += &#34;, raddr=%s&#34; % str(raddr)
+            except error:
+                pass
+        s += &#39;&gt;&#39;
+        return s
+
+    def __getstate__(self):
+        raise TypeError(f&#34;cannot pickle {self.__class__.__name__!r} object&#34;)
+
+    def dup(self):
+        &#34;&#34;&#34;dup() -&gt; socket object
+
+        Duplicate the socket. Return a new socket object connected to the same
+        system resource. The new socket is non-inheritable.
+        &#34;&#34;&#34;
+        fd = dup(self.fileno())
+        sock = self.__class__(self.family, self.type, self.proto, fileno=fd)
+        sock.settimeout(self.gettimeout())
+        return sock
+
+    def accept(self):
+        &#34;&#34;&#34;accept() -&gt; (socket object, address info)
+
+        Wait for an incoming connection.  Return a new socket
+        representing the connection, and the address of the client.
+        For IP sockets, the address info is a pair (hostaddr, port).
+        &#34;&#34;&#34;
+        fd, addr = self._accept()
+        sock = socket(self.family, self.type, self.proto, fileno=fd)
+        # Issue #7995: if no default timeout is set and the listening
+        # socket had a (non-zero) timeout, force the new socket in blocking
+        # mode to override platform-specific socket flags inheritance.
+        if getdefaulttimeout() is None and self.gettimeout():
+            sock.setblocking(True)
+        return sock, addr
+
+    def makefile(self, mode=&#34;r&#34;, buffering=None, *,
+                 encoding=None, errors=None, newline=None):
+        &#34;&#34;&#34;makefile(...) -&gt; an I/O stream connected to the socket
+
+        The arguments are as for io.open() after the filename, except the only
+        supported mode values are &#39;r&#39; (default), &#39;w&#39; and &#39;b&#39;.
+        &#34;&#34;&#34;
+        # XXX refactor to share code?
+        if not set(mode) &lt;= {&#34;r&#34;, &#34;w&#34;, &#34;b&#34;}:
+            raise ValueError(&#34;invalid mode %r (only r, w, b allowed)&#34; % (mode,))
+        writing = &#34;w&#34; in mode
+        reading = &#34;r&#34; in mode or not writing
+        assert reading or writing
+        binary = &#34;b&#34; in mode
+        rawmode = &#34;&#34;
+        if reading:
+            rawmode += &#34;r&#34;
+        if writing:
+            rawmode += &#34;w&#34;
+        raw = SocketIO(self, rawmode)
+        self._io_refs += 1
+        if buffering is None:
+            buffering = -1
+        if buffering &lt; 0:
+            buffering = io.DEFAULT_BUFFER_SIZE
+        if buffering == 0:
+            if not binary:
+                raise ValueError(&#34;unbuffered streams must be binary&#34;)
+            return raw
+        if reading and writing:
+            buffer = io.BufferedRWPair(raw, raw, buffering)
+        elif reading:
+            buffer = io.BufferedReader(raw, buffering)
+        else:
+            assert writing
+            buffer = io.BufferedWriter(raw, buffering)
+        if binary:
+            return buffer
+        text = io.TextIOWrapper(buffer, encoding, errors, newline)
+        text.mode = mode
+        return text
+
+    if hasattr(os, &#39;sendfile&#39;):
+
+        def _sendfile_use_sendfile(self, file, offset=0, count=None):
+            self._check_sendfile_params(file, offset, count)
+            sockno = self.fileno()
+            try:
+                fileno = file.fileno()
+            except (AttributeError, io.UnsupportedOperation) as err:
+                raise _GiveupOnSendfile(err)  # not a regular file
+            try:
+                fsize = os.fstat(fileno).st_size
+            except OSError as err:
+                raise _GiveupOnSendfile(err)  # not a regular file
+            if not fsize:
+                return 0  # empty file
+            # Truncate to 1GiB to avoid OverflowError, see bpo-38319.
+            blocksize = min(count or fsize, 2 ** 30)
+            timeout = self.gettimeout()
+            if timeout == 0:
+                raise ValueError(&#34;non-blocking sockets are not supported&#34;)
+            # poll/select have the advantage of not requiring any
+            # extra file descriptor, contrarily to epoll/kqueue
+            # (also, they require a single syscall).
+            if hasattr(selectors, &#39;PollSelector&#39;):
+                selector = selectors.PollSelector()
+            else:
+                selector = selectors.SelectSelector()
+            selector.register(sockno, selectors.EVENT_WRITE)
+
+            total_sent = 0
+            # localize variable access to minimize overhead
+            selector_select = selector.select
+            os_sendfile = os.sendfile
+            try:
+                while True:
+                    if timeout and not selector_select(timeout):
+                        raise _socket.timeout(&#39;timed out&#39;)
+                    if count:
+                        blocksize = count - total_sent
+                        if blocksize &lt;= 0:
+                            break
+                    try:
+                        sent = os_sendfile(sockno, fileno, offset, blocksize)
+                    except BlockingIOError:
+                        if not timeout:
+                            # Block until the socket is ready to send some
+                            # data; avoids hogging CPU resources.
+                            selector_select()
+                        continue
+                    except OSError as err:
+                        if total_sent == 0:
+                            # We can get here for different reasons, the main
+                            # one being &#39;file&#39; is not a regular mmap(2)-like
+                            # file, in which case we&#39;ll fall back on using
+                            # plain send().
+                            raise _GiveupOnSendfile(err)
+                        raise err from None
+                    else:
+                        if sent == 0:
+                            break  # EOF
+                        offset += sent
+                        total_sent += sent
+                return total_sent
+            finally:
+                if total_sent &gt; 0 and hasattr(file, &#39;seek&#39;):
+                    file.seek(offset)
+    else:
+        def _sendfile_use_sendfile(self, file, offset=0, count=None):
+            raise _GiveupOnSendfile(
+                &#34;os.sendfile() not available on this platform&#34;)
+
+    def _sendfile_use_send(self, file, offset=0, count=None):
+        self._check_sendfile_params(file, offset, count)
+        if self.gettimeout() == 0:
+            raise ValueError(&#34;non-blocking sockets are not supported&#34;)
+        if offset:
+            file.seek(offset)
+        blocksize = min(count, 8192) if count else 8192
+        total_sent = 0
+        # localize variable access to minimize overhead
+        file_read = file.read
+        sock_send = self.send
+        try:
+            while True:
+                if count:
+                    blocksize = min(count - total_sent, blocksize)
+                    if blocksize &lt;= 0:
+                        break
+                data = memoryview(file_read(blocksize))
+                if not data:
+                    break  # EOF
+                while True:
+                    try:
+                        sent = sock_send(data)
+                    except BlockingIOError:
+                        continue
+                    else:
+                        total_sent += sent
+                        if sent &lt; len(data):
+                            data = data[sent:]
+                        else:
+                            break
+            return total_sent
+        finally:
+            if total_sent &gt; 0 and hasattr(file, &#39;seek&#39;):
+                file.seek(offset + total_sent)
+
+    def _check_sendfile_params(self, file, offset, count):
+        if &#39;b&#39; not in getattr(file, &#39;mode&#39;, &#39;b&#39;):
+            raise ValueError(&#34;file should be opened in binary mode&#34;)
+        if not self.type &amp; SOCK_STREAM:
+            raise ValueError(&#34;only SOCK_STREAM type sockets are supported&#34;)
+        if count is not None:
+            if not isinstance(count, int):
+                raise TypeError(
+                    &#34;count must be a positive integer (got {!r})&#34;.format(count))
+            if count &lt;= 0:
+                raise ValueError(
+                    &#34;count must be a positive integer (got {!r})&#34;.format(count))
+
+    def sendfile(self, file, offset=0, count=None):
+        &#34;&#34;&#34;sendfile(file[, offset[, count]]) -&gt; sent
+
+        Send a file until EOF is reached by using high-performance
+        os.sendfile() and return the total number of bytes which
+        were sent.
+        *file* must be a regular file object opened in binary mode.
+        If os.sendfile() is not available (e.g. Windows) or file is
+        not a regular file socket.send() will be used instead.
+        *offset* tells from where to start reading the file.
+        If specified, *count* is the total number of bytes to transmit
+        as opposed to sending the file until EOF is reached.
+        File position is updated on return or also in case of error in
+        which case file.tell() can be used to figure out the number of
+        bytes which were sent.
+        The socket must be of SOCK_STREAM type.
+        Non-blocking sockets are not supported.
+        &#34;&#34;&#34;
+        try:
+            return self._sendfile_use_sendfile(file, offset, count)
+        except _GiveupOnSendfile:
+            return self._sendfile_use_send(file, offset, count)
+
+    def _decref_socketios(self):
+        if self._io_refs &gt; 0:
+            self._io_refs -= 1
+        if self._closed:
+            self.close()
+
+    def _real_close(self, _ss=_socket.socket):
+        # This function should not reference any globals. See issue #808164.
+        _ss.close(self)
+
+    def close(self):
+        # This function should not reference any globals. See issue #808164.
+        self._closed = True
+        if self._io_refs &lt;= 0:
+            self._real_close()
+
+    def detach(self):
+        &#34;&#34;&#34;detach() -&gt; file descriptor
+
+        Close the socket object without closing the underlying file descriptor.
+        The object cannot be used after this call, but the file descriptor
+        can be reused for other purposes.  The file descriptor is returned.
+        &#34;&#34;&#34;
+        self._closed = True
+        return super().detach()
+
+    @property
+    def family(self):
+        &#34;&#34;&#34;Read-only access to the address family for this socket.
+        &#34;&#34;&#34;
+        return _intenum_converter(super().family, AddressFamily)
+
+    @property
+    def type(self):
+        &#34;&#34;&#34;Read-only access to the socket type.
+        &#34;&#34;&#34;
+        return _intenum_converter(super().type, SocketKind)
+
+    if os.name == &#39;nt&#39;:
+        def get_inheritable(self):
+            return os.get_handle_inheritable(self.fileno())
+        def set_inheritable(self, inheritable):
+            os.set_handle_inheritable(self.fileno(), inheritable)
+    else:
+        def get_inheritable(self):
+            return os.get_inheritable(self.fileno())
+        def set_inheritable(self, inheritable):
+            os.set_inheritable(self.fileno(), inheritable)
+    get_inheritable.__doc__ = &#34;Get the inheritable flag of the socket&#34;
+    set_inheritable.__doc__ = &#34;Set the inheritable flag of the socket&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>_socket.socket</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li>ssl.SSLSocket</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="socket.socket.family"><code class="name">var <span class="ident">family</span></code></dt>
+<dd>
+<section class="desc"><p>Read-only access to the address family for this socket.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def family(self):
+    &#34;&#34;&#34;Read-only access to the address family for this socket.
+    &#34;&#34;&#34;
+    return _intenum_converter(super().family, AddressFamily)</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"><p>Read-only access to the socket type.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def type(self):
+    &#34;&#34;&#34;Read-only access to the socket type.
+    &#34;&#34;&#34;
+    return _intenum_converter(super().type, SocketKind)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="socket.socket.accept"><code class="name flex">
+<span>def <span class="ident">accept</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>accept() -&gt; (socket object, address info)</p>
+<p>Wait for an incoming connection.
+Return a new socket
+representing the connection, and the address of the client.
+For IP sockets, the address info is a pair (hostaddr, port).</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def accept(self):
+    &#34;&#34;&#34;accept() -&gt; (socket object, address info)
+
+    Wait for an incoming connection.  Return a new socket
+    representing the connection, and the address of the client.
+    For IP sockets, the address info is a pair (hostaddr, port).
+    &#34;&#34;&#34;
+    fd, addr = self._accept()
+    sock = socket(self.family, self.type, self.proto, fileno=fd)
+    # Issue #7995: if no default timeout is set and the listening
+    # socket had a (non-zero) timeout, force the new socket in blocking
+    # mode to override platform-specific socket flags inheritance.
+    if getdefaulttimeout() is None and self.gettimeout():
+        sock.setblocking(True)
+    return sock, addr</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.close"><code class="name flex">
+<span>def <span class="ident">close</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>close()</p>
+<p>Close the socket.
+It cannot be used after this call.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def close(self):
+    # This function should not reference any globals. See issue #808164.
+    self._closed = True
+    if self._io_refs &lt;= 0:
+        self._real_close()</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.detach"><code class="name flex">
+<span>def <span class="ident">detach</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>detach() -&gt; file descriptor</p>
+<p>Close the socket object without closing the underlying file descriptor.
+The object cannot be used after this call, but the file descriptor
+can be reused for other purposes.
+The file descriptor is returned.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def detach(self):
+    &#34;&#34;&#34;detach() -&gt; file descriptor
+
+    Close the socket object without closing the underlying file descriptor.
+    The object cannot be used after this call, but the file descriptor
+    can be reused for other purposes.  The file descriptor is returned.
+    &#34;&#34;&#34;
+    self._closed = True
+    return super().detach()</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.dup"><code class="name flex">
+<span>def <span class="ident">dup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>dup() -&gt; socket object</p>
+<p>Duplicate the socket. Return a new socket object connected to the same
+system resource. The new socket is non-inheritable.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dup(self):
+    &#34;&#34;&#34;dup() -&gt; socket object
+
+    Duplicate the socket. Return a new socket object connected to the same
+    system resource. The new socket is non-inheritable.
+    &#34;&#34;&#34;
+    fd = dup(self.fileno())
+    sock = self.__class__(self.family, self.type, self.proto, fileno=fd)
+    sock.settimeout(self.gettimeout())
+    return sock</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.get_inheritable"><code class="name flex">
+<span>def <span class="ident">get_inheritable</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get the inheritable flag of the socket</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_inheritable(self):
+    return os.get_handle_inheritable(self.fileno())</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.makefile"><code class="name flex">
+<span>def <span class="ident">makefile</span></span>(<span>self, mode='r', buffering=None, *, encoding=None, errors=None, newline=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>makefile(&hellip;) -&gt; an I/O stream connected to the socket</p>
+<p>The arguments are as for io.open() after the filename, except the only
+supported mode values are 'r' (default), 'w' and 'b'.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def makefile(self, mode=&#34;r&#34;, buffering=None, *,
+             encoding=None, errors=None, newline=None):
+    &#34;&#34;&#34;makefile(...) -&gt; an I/O stream connected to the socket
+
+    The arguments are as for io.open() after the filename, except the only
+    supported mode values are &#39;r&#39; (default), &#39;w&#39; and &#39;b&#39;.
+    &#34;&#34;&#34;
+    # XXX refactor to share code?
+    if not set(mode) &lt;= {&#34;r&#34;, &#34;w&#34;, &#34;b&#34;}:
+        raise ValueError(&#34;invalid mode %r (only r, w, b allowed)&#34; % (mode,))
+    writing = &#34;w&#34; in mode
+    reading = &#34;r&#34; in mode or not writing
+    assert reading or writing
+    binary = &#34;b&#34; in mode
+    rawmode = &#34;&#34;
+    if reading:
+        rawmode += &#34;r&#34;
+    if writing:
+        rawmode += &#34;w&#34;
+    raw = SocketIO(self, rawmode)
+    self._io_refs += 1
+    if buffering is None:
+        buffering = -1
+    if buffering &lt; 0:
+        buffering = io.DEFAULT_BUFFER_SIZE
+    if buffering == 0:
+        if not binary:
+            raise ValueError(&#34;unbuffered streams must be binary&#34;)
+        return raw
+    if reading and writing:
+        buffer = io.BufferedRWPair(raw, raw, buffering)
+    elif reading:
+        buffer = io.BufferedReader(raw, buffering)
+    else:
+        assert writing
+        buffer = io.BufferedWriter(raw, buffering)
+    if binary:
+        return buffer
+    text = io.TextIOWrapper(buffer, encoding, errors, newline)
+    text.mode = mode
+    return text</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.sendfile"><code class="name flex">
+<span>def <span class="ident">sendfile</span></span>(<span>self, file, offset=0, count=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>sendfile(file[, offset[, count]]) -&gt; sent</p>
+<p>Send a file until EOF is reached by using high-performance
+os.sendfile() and return the total number of bytes which
+were sent.
+<em>file</em> must be a regular file object opened in binary mode.
+If os.sendfile() is not available (e.g. Windows) or file is
+not a regular file socket.send() will be used instead.
+<em>offset</em> tells from where to start reading the file.
+If specified, <em>count</em> is the total number of bytes to transmit
+as opposed to sending the file until EOF is reached.
+File position is updated on return or also in case of error in
+which case file.tell() can be used to figure out the number of
+bytes which were sent.
+The socket must be of SOCK_STREAM type.
+Non-blocking sockets are not supported.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sendfile(self, file, offset=0, count=None):
+    &#34;&#34;&#34;sendfile(file[, offset[, count]]) -&gt; sent
+
+    Send a file until EOF is reached by using high-performance
+    os.sendfile() and return the total number of bytes which
+    were sent.
+    *file* must be a regular file object opened in binary mode.
+    If os.sendfile() is not available (e.g. Windows) or file is
+    not a regular file socket.send() will be used instead.
+    *offset* tells from where to start reading the file.
+    If specified, *count* is the total number of bytes to transmit
+    as opposed to sending the file until EOF is reached.
+    File position is updated on return or also in case of error in
+    which case file.tell() can be used to figure out the number of
+    bytes which were sent.
+    The socket must be of SOCK_STREAM type.
+    Non-blocking sockets are not supported.
+    &#34;&#34;&#34;
+    try:
+        return self._sendfile_use_sendfile(file, offset, count)
+    except _GiveupOnSendfile:
+        return self._sendfile_use_send(file, offset, count)</code></pre>
+</details>
+</dd>
+<dt id="socket.socket.set_inheritable"><code class="name flex">
+<span>def <span class="ident">set_inheritable</span></span>(<span>self, inheritable)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Set the inheritable flag of the socket</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_inheritable(self, inheritable):
+    os.set_handle_inheritable(self.fileno(), inheritable)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="socket.timeout"><code class="flex name class">
+<span>class <span class="ident">timeout</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base class for I/O related errors.</p></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.OSError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="socket.close" href="#socket.close">close</a></code></li>
+<li><code><a title="socket.create_connection" href="#socket.create_connection">create_connection</a></code></li>
+<li><code><a title="socket.create_server" href="#socket.create_server">create_server</a></code></li>
+<li><code><a title="socket.dup" href="#socket.dup">dup</a></code></li>
+<li><code><a title="socket.fromfd" href="#socket.fromfd">fromfd</a></code></li>
+<li><code><a title="socket.fromshare" href="#socket.fromshare">fromshare</a></code></li>
+<li><code><a title="socket.getaddrinfo" href="#socket.getaddrinfo">getaddrinfo</a></code></li>
+<li><code><a title="socket.getdefaulttimeout" href="#socket.getdefaulttimeout">getdefaulttimeout</a></code></li>
+<li><code><a title="socket.getfqdn" href="#socket.getfqdn">getfqdn</a></code></li>
+<li><code><a title="socket.gethostbyaddr" href="#socket.gethostbyaddr">gethostbyaddr</a></code></li>
+<li><code><a title="socket.gethostbyname" href="#socket.gethostbyname">gethostbyname</a></code></li>
+<li><code><a title="socket.gethostbyname_ex" href="#socket.gethostbyname_ex">gethostbyname_ex</a></code></li>
+<li><code><a title="socket.gethostname" href="#socket.gethostname">gethostname</a></code></li>
+<li><code><a title="socket.getnameinfo" href="#socket.getnameinfo">getnameinfo</a></code></li>
+<li><code><a title="socket.getprotobyname" href="#socket.getprotobyname">getprotobyname</a></code></li>
+<li><code><a title="socket.getservbyname" href="#socket.getservbyname">getservbyname</a></code></li>
+<li><code><a title="socket.getservbyport" href="#socket.getservbyport">getservbyport</a></code></li>
+<li><code><a title="socket.has_dualstack_ipv6" href="#socket.has_dualstack_ipv6">has_dualstack_ipv6</a></code></li>
+<li><code><a title="socket.htonl" href="#socket.htonl">htonl</a></code></li>
+<li><code><a title="socket.htons" href="#socket.htons">htons</a></code></li>
+<li><code><a title="socket.if_indextoname" href="#socket.if_indextoname">if_indextoname</a></code></li>
+<li><code><a title="socket.if_nameindex" href="#socket.if_nameindex">if_nameindex</a></code></li>
+<li><code><a title="socket.if_nametoindex" href="#socket.if_nametoindex">if_nametoindex</a></code></li>
+<li><code><a title="socket.inet_aton" href="#socket.inet_aton">inet_aton</a></code></li>
+<li><code><a title="socket.inet_ntoa" href="#socket.inet_ntoa">inet_ntoa</a></code></li>
+<li><code><a title="socket.inet_ntop" href="#socket.inet_ntop">inet_ntop</a></code></li>
+<li><code><a title="socket.inet_pton" href="#socket.inet_pton">inet_pton</a></code></li>
+<li><code><a title="socket.ntohl" href="#socket.ntohl">ntohl</a></code></li>
+<li><code><a title="socket.ntohs" href="#socket.ntohs">ntohs</a></code></li>
+<li><code><a title="socket.setdefaulttimeout" href="#socket.setdefaulttimeout">setdefaulttimeout</a></code></li>
+<li><code><a title="socket.socketpair" href="#socket.socketpair">socketpair</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="socket.AddressFamily" href="#socket.AddressFamily">AddressFamily</a></code></h4>
+<ul class="two-column">
+<li><code><a title="socket.AddressFamily.AF_APPLETALK" href="#socket.AddressFamily.AF_APPLETALK">AF_APPLETALK</a></code></li>
+<li><code><a title="socket.AddressFamily.AF_INET" href="#socket.AddressFamily.AF_INET">AF_INET</a></code></li>
+<li><code><a title="socket.AddressFamily.AF_INET6" href="#socket.AddressFamily.AF_INET6">AF_INET6</a></code></li>
+<li><code><a title="socket.AddressFamily.AF_IPX" href="#socket.AddressFamily.AF_IPX">AF_IPX</a></code></li>
+<li><code><a title="socket.AddressFamily.AF_IRDA" href="#socket.AddressFamily.AF_IRDA">AF_IRDA</a></code></li>
+<li><code><a title="socket.AddressFamily.AF_SNA" href="#socket.AddressFamily.AF_SNA">AF_SNA</a></code></li>
+<li><code><a title="socket.AddressFamily.AF_UNSPEC" href="#socket.AddressFamily.AF_UNSPEC">AF_UNSPEC</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="socket.SocketKind" href="#socket.SocketKind">SocketKind</a></code></h4>
+<ul class="">
+<li><code><a title="socket.SocketKind.SOCK_DGRAM" href="#socket.SocketKind.SOCK_DGRAM">SOCK_DGRAM</a></code></li>
+<li><code><a title="socket.SocketKind.SOCK_RAW" href="#socket.SocketKind.SOCK_RAW">SOCK_RAW</a></code></li>
+<li><code><a title="socket.SocketKind.SOCK_RDM" href="#socket.SocketKind.SOCK_RDM">SOCK_RDM</a></code></li>
+<li><code><a title="socket.SocketKind.SOCK_SEQPACKET" href="#socket.SocketKind.SOCK_SEQPACKET">SOCK_SEQPACKET</a></code></li>
+<li><code><a title="socket.SocketKind.SOCK_STREAM" href="#socket.SocketKind.SOCK_STREAM">SOCK_STREAM</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="socket.socket" href="#socket.socket">socket</a></code></h4>
+<ul class="two-column">
+<li><code><a title="socket.socket.bind" href="#socket.socket.bind">bind</a></code></li>
+<li><code><a title="socket.socket.close" href="#socket.socket.close">close</a></code></li>
+<li><code><a title="socket.socket.connect" href="#socket.socket.connect">connect</a></code></li>
+<li><code><a title="socket.socket.connect_ex" href="#socket.socket.connect_ex">connect_ex</a></code></li>
+<li><code><a title="socket.socket.detach" href="#socket.socket.detach">detach</a></code></li>
+<li><code><a title="socket.socket.family" href="#socket.socket.family">family</a></code></li>
+<li><code><a title="socket.socket.fileno" href="#socket.socket.fileno">fileno</a></code></li>
+<li><code><a title="socket.socket.getblocking" href="#socket.socket.getblocking">getblocking</a></code></li>
+<li><code><a title="socket.socket.getpeername" href="#socket.socket.getpeername">getpeername</a></code></li>
+<li><code><a title="socket.socket.getsockname" href="#socket.socket.getsockname">getsockname</a></code></li>
+<li><code><a title="socket.socket.getsockopt" href="#socket.socket.getsockopt">getsockopt</a></code></li>
+<li><code><a title="socket.socket.gettimeout" href="#socket.socket.gettimeout">gettimeout</a></code></li>
+<li><code><a title="socket.socket.ioctl" href="#socket.socket.ioctl">ioctl</a></code></li>
+<li><code><a title="socket.socket.listen" href="#socket.socket.listen">listen</a></code></li>
+<li><code><a title="socket.socket.proto" href="#socket.socket.proto">proto</a></code></li>
+<li><code><a title="socket.socket.recv" href="#socket.socket.recv">recv</a></code></li>
+<li><code><a title="socket.socket.recv_into" href="#socket.socket.recv_into">recv_into</a></code></li>
+<li><code><a title="socket.socket.recvfrom" href="#socket.socket.recvfrom">recvfrom</a></code></li>
+<li><code><a title="socket.socket.recvfrom_into" href="#socket.socket.recvfrom_into">recvfrom_into</a></code></li>
+<li><code><a title="socket.socket.send" href="#socket.socket.send">send</a></code></li>
+<li><code><a title="socket.socket.sendall" href="#socket.socket.sendall">sendall</a></code></li>
+<li><code><a title="socket.socket.sendto" href="#socket.socket.sendto">sendto</a></code></li>
+<li><code><a title="socket.socket.setblocking" href="#socket.socket.setblocking">setblocking</a></code></li>
+<li><code><a title="socket.socket.setsockopt" href="#socket.socket.setsockopt">setsockopt</a></code></li>
+<li><code><a title="socket.socket.settimeout" href="#socket.socket.settimeout">settimeout</a></code></li>
+<li><code><a title="socket.socket.share" href="#socket.socket.share">share</a></code></li>
+<li><code><a title="socket.socket.shutdown" href="#socket.socket.shutdown">shutdown</a></code></li>
+<li><code><a title="socket.socket.timeout" href="#socket.socket.timeout">timeout</a></code></li>
+<li><code><a title="socket.socket.type" href="#socket.socket.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="socket.OSError" href="#socket.OSError">OSError</a></code></h4>
+<ul class="two-column">
+<li><code><a title="socket.OSError.characters_written" href="#socket.OSError.characters_written">characters_written</a></code></li>
+<li><code><a title="socket.OSError.errno" href="#socket.OSError.errno">errno</a></code></li>
+<li><code><a title="socket.OSError.filename" href="#socket.OSError.filename">filename</a></code></li>
+<li><code><a title="socket.OSError.filename2" href="#socket.OSError.filename2">filename2</a></code></li>
+<li><code><a title="socket.OSError.strerror" href="#socket.OSError.strerror">strerror</a></code></li>
+<li><code><a title="socket.OSError.winerror" href="#socket.OSError.winerror">winerror</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="socket.gaierror" href="#socket.gaierror">gaierror</a></code></h4>
+</li>
+<li>
+<h4><code><a title="socket.herror" href="#socket.herror">herror</a></code></h4>
+</li>
+<li>
+<h4><code><a title="socket.socket" href="#socket.socket">socket</a></code></h4>
+<ul class="two-column">
+<li><code><a title="socket.socket.accept" href="#socket.socket.accept">accept</a></code></li>
+<li><code><a title="socket.socket.close" href="#socket.socket.close">close</a></code></li>
+<li><code><a title="socket.socket.detach" href="#socket.socket.detach">detach</a></code></li>
+<li><code><a title="socket.socket.dup" href="#socket.socket.dup">dup</a></code></li>
+<li><code><a title="socket.socket.family" href="#socket.socket.family">family</a></code></li>
+<li><code><a title="socket.socket.get_inheritable" href="#socket.socket.get_inheritable">get_inheritable</a></code></li>
+<li><code><a title="socket.socket.makefile" href="#socket.socket.makefile">makefile</a></code></li>
+<li><code><a title="socket.socket.sendfile" href="#socket.socket.sendfile">sendfile</a></code></li>
+<li><code><a title="socket.socket.set_inheritable" href="#socket.socket.set_inheritable">set_inheritable</a></code></li>
+<li><code><a title="socket.socket.type" href="#socket.socket.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="socket.timeout" href="#socket.timeout">timeout</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
