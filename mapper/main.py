@@ -57,6 +57,10 @@ class Proxy(threading.Thread):
 			if not data:
 				self.close()
 			record("here", data)
+			if data == b'':
+				self.close()
+				exit()
+				raise Exception("closing")
 
 
 class Server(threading.Thread):
@@ -83,6 +87,8 @@ class Server(threading.Thread):
 				continue
 			try:
 				record("SERVER", data)
+				if data == b'':
+					self.close()
 			except EnvironmentError:
 				self.close()
 				continue
@@ -159,6 +165,8 @@ def main(
 	)
 	serverThread.start()
 	proxyThread.start()
+	proxyThread.join()
+	return
 	serverThread.join()
 	try:
 		serverConnection.shutdown(socket.SHUT_RDWR)
