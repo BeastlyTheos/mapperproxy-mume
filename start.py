@@ -98,11 +98,11 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	try:
 		mapper.main.main(
-			localHost=args.local_host,
-			localPort=args.local_port,
-			remoteHost=args.remote_host,
-			remotePort=args.remote_port,
-			noSsl=args.no_ssl
+			localHost="localhost",
+			localPort=4000,
+			remoteHost="localhost",
+			remotePort=4001,
+			noSsl=True,
 		)
 	except Exception:
 		traceback.print_exception(*sys.exc_info())

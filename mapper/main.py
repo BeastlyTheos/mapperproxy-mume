@@ -34,11 +34,12 @@ def record(type, data):
 
 
 class Proxy(threading.Thread):
-	def __init__(self, client, server):
+	def __init__(self, client, server, lines):
 		threading.Thread.__init__(self)
 		self.name = "Proxy"
 		self._client = client
 		self._server = server
+		self.lines = lines
 		self.finished = threading.Event()
 
 	def close(self):
@@ -64,11 +65,12 @@ class Proxy(threading.Thread):
 
 
 class Server(threading.Thread):
-	def __init__(self, client, server):
+	def __init__(self, client, server, lines):
 		threading.Thread.__init__(self)
 		self.name = "Server"
 		self._client = client
 		self._server = server
+		self.lines = lines
 		self.finished = threading.Event()
 
 	def close(self):
@@ -79,6 +81,8 @@ class Server(threading.Thread):
 			try:
 				data = self._server.recv(4096)
 				self._client.sendall(data)
+				line = (datetime.now().strftime("%H:%M.%S"), data)
+				self.lines[:5].append(line)
 			except EnvironmentError:
 				self.close()
 				continue
@@ -119,6 +123,7 @@ def main(
 		noSsl
 ):
 	# initialise client connection
+	lines = []
 	proxySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	proxySocket.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 	proxySocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -132,7 +137,7 @@ def main(
 	serverConnection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	serverConnection.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 	serverConnection.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-	if not noSsl and ssl is not None:
+	if False and not noSsl and ssl is not None:
 		serverConnection = ssl.wrap_socket(serverConnection)
 		clientConnection = ssl.wrap_socket(clientConnection)
 	try:
@@ -158,10 +163,12 @@ def main(
 	proxyThread = Proxy(
 		client=clientConnection,
 		server=serverConnection,
+		lines=lines,
 	)
 	serverThread = Server(
 		client=clientConnection,
 		server=serverConnection,
+		lines=lines,
 	)
 	serverThread.start()
 	proxyThread.start()
