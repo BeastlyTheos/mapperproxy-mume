@@ -12,7 +12,9 @@ try:
 	import ssl
 except ImportError:
 	ssl = None
+import sys
 import threading
+import traceback
 
 # Local Modules:
 from .utils import getDirectoryPath, removeFile, touch
@@ -57,7 +59,6 @@ class Proxy(threading.Thread):
 				continue
 			if not data:
 				self.close()
-			record("here", data)
 			if data == b'':
 				self.close()
 				exit()
@@ -82,7 +83,9 @@ class Server(threading.Thread):
 				data = self._server.recv(4096)
 				self._client.sendall(data)
 				line = (datetime.now().strftime("%H:%M.%S"), data)
-				self.lines[:5].append(line)
+				self.lines.append(line)
+				while len(self.lines) > 5:
+					self.lines.remove(self.lines[0])
 			except EnvironmentError:
 				self.close()
 				continue
@@ -90,12 +93,28 @@ class Server(threading.Thread):
 				self.close()
 				continue
 			try:
-				record("SERVER", data)
 				if data == b'':
 					self.close()
 			except EnvironmentError:
 				self.close()
 				continue
+
+
+class Printer(threading.Thread):
+	def __init__(self, lines):
+		threading.Thread.__init__(self)
+		self.name = "ProxyPrinter"
+		self.lines = lines
+
+	def run(self):
+		while True:
+			input()
+			try:
+				print("on " + datetime.now().strftime("%H:%M.%S"))
+				for line in self.lines:
+					print("%s: %s\n" % (line[0], line[1]))
+			except Exception:
+				traceback.print_exception(*sys.exc_info())
 
 
 class MockedSocket(object):
@@ -170,6 +189,8 @@ def main(
 		server=serverConnection,
 		lines=lines,
 	)
+	printerThread = Printer(lines=lines)
+	printerThread.start()
 	serverThread.start()
 	proxyThread.start()
 	proxyThread.join()
