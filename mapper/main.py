@@ -7,6 +7,7 @@
 from datetime import datetime
 import logging
 import os
+import re
 import socket
 try:
 	import ssl
@@ -81,6 +82,9 @@ class Server(threading.Thread):
 		while not self.finished.isSet():
 			try:
 				data = self._server.recv(4096)
+				m = re.search(br"(\w+) tells you [GT] '([^']*)'", data)
+				if m:
+					data = m.group(0) + b"\r\n\r\n\x1b"
 				self._client.sendall(data)
 				line = (datetime.now().strftime("%H:%M.%S"), data)
 				self.lines.append(line)

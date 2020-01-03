@@ -1,0 +1,87 @@
+Select Administrator:  sample
+                                                                                                                                                       
+                
+19:50.43: b'The Dark Passage\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\r\n'                                                                          
+                
+                                                                                                                                                       
+                
+                                                                                                                                                       
+                
+on 19:51.04                                                                                                                                            
+                
+19:51.01: b'The Great Hall\r\nA skeleton of some humanoid lies in the dust.\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\r\n'                           
+                
+                                                                                                                                                       
+                
+19:51.01: b'You get a rib-bone of a skeleton from a skeleton.\r\nYou get a chain mail hauberk from a skeleton.\r\nYou get a pike from a skeleton.\r\n\r\n\x1b[34mHP:Woun
+ded Mana:Warm>\x1b[0m\r\n'                                                                                                                             
+                
+                                                                                                                                                       
+                
+19:51.02: b"\r\n\x1b[32mCarl tells you [GT] 'sorry wrong shield. marred aged'\x1b[0m\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\xff\xf9"              
+                
+                                                                                                                                                       
+                
+19:51.02: b"Ok.\r\nA pony (fes) doesn't seem to be able to carry anything else.\r\nA pony (fes) doesn't seem to be able to carry anything else.\r\n\r\n\x1b[34mHP:Wounde
+d Mana:Warm>\x1b[0m\r\n"                                                                                                                               
+                
+                                                                                                                                                       
+                
+19:51.03: b"\r\n\x1b[32mRada tells you [GT] 'mmapper color?'\x1b[0m\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\xff\xf9"                               
+                
+                                                                                                                                                       
+                
+                                                                                                                                                       
+                
+on 19:51.12                                                                                                                                            
+                
+19:51.09: b'The Square at the Castle\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\r\n'                                                                  
+                
+                                                                                                                                                       
+                
+19:51.10: b"\r\n\x1b[32mRada tells you [GT] 'what does that have to do with reading?'\x1b[0m\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\xff\xf9"      
+                
+                                                                                                                                                       
+                
+19:51.10: b'Road inside the Walls\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\r\n'                                                                     
+                
+                                                                                                                                                       
+                
+19:51.11: b"A pony (fes) stops following you.\r\nYou pick up a pony (fes)'s reins and start riding him.\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\r\n"
+               
+                                                                                                                                                       
+                
+19:51.11: b"\r\nA mountain mule stops following Wilder.\r\nWilder picks up a mountain mule's reins and starts riding him.\r\n\r\n\x1b[34mHP:Wounded Mana:Warm>\x1b[0m\r\
+n"                                                                                                                                                     
+                
+                                                                                                                                                       
+                
+                                                                                                                                                       
+                
+on 19:51.51                                                                                                                                            
+                
+19:51.36: b"\r\n\x1b[32mRada tells you [GT] 'ah'\x1b[0m\r\n\r\n\x1b[34mHP:Hurt Mana:Warm>\x1b[0m\xff\xf9"                                              
+                
+                                                                                                                                                       
+                
+19:51.41: b"\r\n\x1b[32mEric tells you [GT] 'how's mine jan?'\x1b[0m\r\n\r\n\x1b[34mHP:Hurt Mana:Warm>\x1b[0m\xff\xf9"                                 
+                
+                                                                                                                                                       
+                
+19:51.45: b"\r\n\x1b[32mCarl tells you [GT] 'yours is perfect'\x1b[0m\r\n\r\n\x1b[34mHP:Hurt Mana:Warm>\x1b[0m\xff\xf9"                                
+                
+                                                                                                                                                       
+                
+19:51.47: b'\r\nA young ranger has arrived from the south.\r\n\r\n\x1b[34mHP:Hurt Mana:Hot>\x1b[0m\r\n'                                                
+                
+                                                                                                                                                       
+                
+19:51.48: b"\r\n\x1b[32mEric tells you [GT] ':D'\x1b[0m\r\n\r\n\x1b[34mHP:Hurt Mana:Hot>\x1b[0m\xff\xf9"                                               
+                
+                                                                                                                                                       
+                
+^Ctitle sample                                                                                                                                         
+                
+                                                                                                                                          
+                xxx\r\n\r\n\x1b
+ 
