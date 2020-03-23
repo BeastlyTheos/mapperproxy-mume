@@ -10,9 +10,10 @@ from mapper.mapper import Mapper
 
 
 class TestArmouryPasswordDecoder(unittest.TestCase):
-	def testNothingHappensWhenReceivingIrrelevantLines(self):
+	@classmethod
+	def setUpClass(cls):
 		Mapper.loadRooms = Mock()  # to speed execution of tests
-		mapper = Mapper(
+		cls.mapper = Mapper(
 			client=Mock(),
 			server=None,
 			outputFormat=None,
@@ -22,9 +23,17 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			findFormat=None,
 			isEmulatingOffline=None,
 		)
-		mapper.daemon = True  # this allows unittest to quit if the mapper thread does not close properly.
-		mapper._client.sendall = Mock()
-		decoder = ArmouryPasswordDecoder(mapper)
+		cls.mapper.daemon = True  # this allows unittest to quit if the mapper thread does not close properly.
+
+	def setUp(self):
+		cls = TestArmouryPasswordDecoder
+		cls.mapper._client.sendall = Mock()
+		self.decoder = ArmouryPasswordDecoder(cls.mapper)
+
+	def testNothingHappensWhenReceivingIrrelevantLines(self):
+		sendall = self.mapper._client.sendall
+		decoder = self.decoder
+
 		decoder.handlePassword = Mock()
 
 		for line in [
@@ -59,5 +68,5 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			"Carl leaves down.",
 		]:
 			decoder.handle(line)
-			decoder.mapper._client.sendall.assert_not_called()
+			sendall.assert_not_called()
 			decoder.handlePassword.assert_not_called()
