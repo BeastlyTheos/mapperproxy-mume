@@ -34,7 +34,7 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 		sendall = self.mapper._client.sendall
 		decoder = self.decoder
 
-		decoder.handlePassword = Mock()
+		decoder.decodePassword = Mock()
 
 		for line in [
 			"Road of Narvi",
@@ -69,13 +69,13 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 		]:
 			decoder.handle(line)
 			sendall.assert_not_called()
-			decoder.handlePassword.assert_not_called()
+			decoder.decodePassword.assert_not_called()
 
 	def testErrorIsSentToClientWhenLineHasInvalidPassword(self):
 		sendall = self.mapper._client.sendall
 		decoder = self.decoder
 
-		decoder.handlePassword = Mock()
+		decoder.decodePassword = Mock()
 
 		for line in [
 			"Barely visible in a corner of the page is the strange word: ",
@@ -88,16 +88,16 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 		]:
 			self.assertFalse(lineRegex.search(line), "'%s' is a bad test line. It shouldn't match the regex" % line)
 			decoder.handle(line)
-			decoder.handlePassword.assert_not_called()
+			decoder.decodePassword.assert_not_called()
 			sendall.assert_called_with(
 				"Error in armoury password decoder: cannot parse a password from preceding line."
 			)
 
-	def test_handlePassword_isCalledWhenReceivingLineWithAValidPassword(self):
+	def test_decodePassword_isCalledWhenReceivingLineWithAValidPassword(self):
 		sendall = self.mapper._client.sendall
 		decoder = self.decoder
 
-		decoder.handlePassword = Mock()
+		decoder.decodePassword = Mock()
 
 		for line in [
 			"Barely visible in a corner of the page is the strange word: rtkabmsuk",
@@ -136,4 +136,45 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			decoder.handle(line)
 			
 			sendall.assert_not_called()
-			decoder.handlePassword.assert_called_with(line[len(startOfPasswordLine):])
+			decoder.decodePassword.assert_called_with(line[len(startOfPasswordLine):])
+
+	def test_print_isCalledWhenReceivingLineWithAValidPassword(self):
+		self.mapper._client.sendall = Mock()
+		sendall = self.mapper._client.sendall
+		decoder = self.decoder
+
+		for line in [
+			"rtkabmsuk",
+			"jndaJwsdk",
+			"sekrgfrag",
+			"zmlrfrwol",
+			"zajrpsjef",
+			"fadmmrztr",
+			"maftvmnua",
+			"zjgoelnda",
+			"norlamznz",
+			"vajranmre",
+			"hhdbafrgo",
+			"zusuofnep",
+			"sadndfnds",
+			"zJfrazskg",
+			"hlkaashhe",
+			"fskulmvgl",
+			"sbzrawlba",
+			"rhmtpmnfb",
+			"hsLeasveJ",
+			"mkdramzkr",
+			"fekpunnaa",
+			"nadjehmau",
+			"zgdramrJa",
+			"hjnrkfrun",
+			"sjzaafhuu",
+			"wkjhussad",
+			"satoemwaL",
+			"zadaarJkb",
+			"rkdtmmmul",
+			"szladmzag",
+			"medaesruz",
+		]:
+			decoder.decodePassword(line)
+			#print(decoder.mapper._client.sendall.call_args)

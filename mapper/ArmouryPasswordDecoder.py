@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import re
+from statistics import mode
 
 startOfPasswordLine = "Barely visible in a corner of the page is the strange word: "
 passwordRegex = "(?P<password>[A-Za-z]{9})"
@@ -13,21 +14,31 @@ class ArmouryPasswordDecoder(object):
 	def __init__(self, mapper):
 		self.mapper = mapper
 		self.mapper.registerMudEventHandler("line", self.handle)
+		self.words = [[] for i in range(9)]
+		self.oldGuess = ""
 
 	def handle(self, line):
 		if line.startswith(startOfPasswordLine):
 			m = lineRegex.match(line)
 			if m:
-				self.handlePassword(m.group("password"))
+				self.decodePassword(m.group("password"))
 			else:
 				self.mapper._client.sendall(
 					"Error in armoury password decoder: cannot parse a password from preceding line."
 				)
 
-	def handlePassword(self, word):
-		pass
-		# add to the list of all passwodrs seen so far
-		# find the most common letter for each index in the word
-		# compile new guess
-		# output guess
-		# compare to old guess and output how much it has changed
+	def decodePassword(self, word):
+		for i in range(9):
+			self.words[i].append(word[i])
+		guess_asList = [mode(i) for i in self.words]
+		guess = "".join(guess_asList)
+		self.mapper._client.sendall("guess is " + guess)
+		# print("guess is " + guess)
+		if self.oldGuess:
+			identicalLetters = 0
+			for i in range(9):
+				if guess[i] == self.oldGuess[i]:
+					identicalLetters += 1
+			self.mapper._client.sendall("This has %d letters in common with the last guess." % identicalLetters)
+			# print("This has %d letters in common with the last guess." % identicalLetters)
+		self.oldGuess = guess
