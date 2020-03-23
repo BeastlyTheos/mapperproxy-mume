@@ -2,7 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import re
+
 startOfPasswordLine = "Barely visible in a corner of the page is the strange word: "
+passwordRegex = "(?P<password>[A-Za-z]{9})"
+lineRegex = re.compile("^" + startOfPasswordLine + passwordRegex + "$")
 
 
 class ArmouryPasswordDecoder(object):
@@ -12,10 +16,13 @@ class ArmouryPasswordDecoder(object):
 
 	def handle(self, line):
 		if line.startswith(startOfPasswordLine):
-			pass
-			# use regex to extract the word
-			# if no word, send error to client
-			# else process the word
+			m = lineRegex.match(line)
+			if m:
+				self.handlePassword(m.group("password"))
+			else:
+				self.mapper._client.sendall(
+					"Error in armoury password decoder: cannot parse a password from preceding line."
+				)
 
 	def handlePassword(self, word):
 		pass

@@ -5,7 +5,7 @@
 import unittest
 from unittest.mock import Mock
 
-from mapper.ArmouryPasswordDecoder import ArmouryPasswordDecoder, startOfPasswordLine
+from mapper.ArmouryPasswordDecoder import ArmouryPasswordDecoder, lineRegex, startOfPasswordLine
 from mapper.mapper import Mapper
 
 
@@ -70,3 +70,25 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			decoder.handle(line)
 			sendall.assert_not_called()
 			decoder.handlePassword.assert_not_called()
+
+	def testErrorIsSentToClientWhenLineHasInvalidPassword(self):
+		sendall = self.mapper._client.sendall
+		decoder = self.decoder
+
+		decoder.handlePassword = Mock()
+
+		for line in [
+			"Barely visible in a corner of the page is the strange word: ",
+			"Barely visible in a corner of the page is the strange word: rtkauk",
+			"Barely visible in a corner of the page is the strange word: jndaJwsdkh",
+			"Barely visible in a corner of the page is the strange word: jnda3sdkh",
+			"Barely visible in a corner of the page is the strange word: sekrgfrag8",
+			"Barely visible in a corner of the page is the strange word: 9zmlrfrwol",
+			"Barely visible in a corner of the page is the strange word: szla.mzag",
+		]:
+			self.assertFalse(lineRegex.search(line), "'%s' is a bad test line. It shouldn't match the regex" % line)
+			decoder.handle(line)
+			decoder.handlePassword.assert_not_called()
+			sendall.assert_called_with(
+				"Error in armoury password decoder: cannot parse a password from preceding line."
+			)
