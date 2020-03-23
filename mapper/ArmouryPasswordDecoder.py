@@ -10,13 +10,15 @@ class ArmouryPasswordDecoder(object):
 		self.mapper = mapper
 		self.mapper.registerMudEventHandler("line", self.handle)
 
-	# def handle(self, line):
-		# check if the line starts with lineStart
-		# use regex to extract the word
-		# if no word, send error to client
-		# else process the word
+	def handle(self, line):
+		if line.startswith(startOfPasswordLine):
+			pass
+			# use regex to extract the word
+			# if no word, send error to client
+			# else process the word
 
-	# def processPassword(self, word):
+	def handlePassword(self, word):
+		pass
 		# add to the list of all passwodrs seen so far
 		# find the most common letter for each index in the word
 		# compile new guess
