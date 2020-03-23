@@ -92,3 +92,48 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			sendall.assert_called_with(
 				"Error in armoury password decoder: cannot parse a password from preceding line."
 			)
+
+	def test_handlePassword_isCalledWhenReceivingLineWithAValidPassword(self):
+		sendall = self.mapper._client.sendall
+		decoder = self.decoder
+
+		decoder.handlePassword = Mock()
+
+		for line in [
+			"Barely visible in a corner of the page is the strange word: rtkabmsuk",
+			"Barely visible in a corner of the page is the strange word: jndaJwsdk",
+			"Barely visible in a corner of the page is the strange word: sekrgfrag",
+			"Barely visible in a corner of the page is the strange word: zmlrfrwol",
+			"Barely visible in a corner of the page is the strange word: zajrpsjef",
+			"Barely visible in a corner of the page is the strange word: fadmmrztr",
+			"Barely visible in a corner of the page is the strange word: maftvmnua",
+			"Barely visible in a corner of the page is the strange word: zjgoelnda",
+			"Barely visible in a corner of the page is the strange word: norlamznz",
+			"Barely visible in a corner of the page is the strange word: vajranmre",
+			"Barely visible in a corner of the page is the strange word: hhdbafrgo",
+			"Barely visible in a corner of the page is the strange word: zusuofnep",
+			"Barely visible in a corner of the page is the strange word: sadndfnds",
+			"Barely visible in a corner of the page is the strange word: zJfrazskg",
+			"Barely visible in a corner of the page is the strange word: hlkaashhe",
+			"Barely visible in a corner of the page is the strange word: fskulmvgl",
+			"Barely visible in a corner of the page is the strange word: sbzrawlba",
+			"Barely visible in a corner of the page is the strange word: rhmtpmnfb",
+			"Barely visible in a corner of the page is the strange word: hsLeasveJ",
+			"Barely visible in a corner of the page is the strange word: mkdramzkr",
+			"Barely visible in a corner of the page is the strange word: fekpunnaa",
+			"Barely visible in a corner of the page is the strange word: nadjehmau",
+			"Barely visible in a corner of the page is the strange word: zgdramrJa",
+			"Barely visible in a corner of the page is the strange word: hjnrkfrun",
+			"Barely visible in a corner of the page is the strange word: sjzaafhuu",
+			"Barely visible in a corner of the page is the strange word: wkjhussad",
+			"Barely visible in a corner of the page is the strange word: satoemwaL",
+			"Barely visible in a corner of the page is the strange word: zadaarJkb",
+			"Barely visible in a corner of the page is the strange word: rkdtmmmul",
+			"Barely visible in a corner of the page is the strange word: szladmzag",
+			"Barely visible in a corner of the page is the strange word: medaesruz",
+		]:
+			self.assertTrue(lineRegex.search(line), "'%s' is a bad test line. It should match the regex" % line)
+			decoder.handle(line)
+			
+			sendall.assert_not_called()
+			decoder.handlePassword.assert_called_with(line[len(startOfPasswordLine):])
