@@ -21,9 +21,8 @@ class LocateMapParser(object):
 		if line.startswith("+") and line.endswith("+") and verticleBordersRegex.match(line):
 			# using startswith and endswith minimises the number of calls to regex
 			if self.isParsing:
-				pass  # bottom border of map
-				# is reading = false
-				# print coordinates
+				self.isParsing = False
+				self.printCoordinates()
 			else:
 				self.isParsing = True
 				# re initialise the array of lines
@@ -31,7 +30,8 @@ class LocateMapParser(object):
 			if line.startswith("|") and line.endswith("|"):
 				self.parseLine(line)
 			else:
-				pass  # error invalid line, and in case was not even supposed to be parsing, set flag to false
+				self.mapper._client.sendall("Unrecognisable map line. Terminating parsing.")
+				self.isParsing = False
 
 	def parseLine(self, line):
 		pass
