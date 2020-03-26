@@ -8,7 +8,7 @@ from unittest.mock import call, Mock
 from mapper.LocateMapParser import LocateMapParser, verticleBordersRegex
 
 
-class TestHandle(unittest.TestCase):
+class TestRegex(unittest.TestCase):
 	def test_verticleBordersRegex(self):
 		for line in [
 			"+-----------------------------------+",
@@ -73,8 +73,15 @@ class TestHandle(unittest.TestCase):
 				"'%s' matches the regex for start and end lines."
 			)
 
+
+class testLocateMapParser(unittest.TestCase):
+	def setUp(self):
+		self.mapper = Mock()
+		self.mapper._client.sendall = Mock()
+		self.parser = LocateMapParser(self.mapper)
+
 	def test_handle_whenGivenCompleteMap(self):
-		parser = LocateMapParser(Mock())
+		parser = self.parser
 		parser.parseLine = Mock()
 		parser.printCoordinates = Mock()
 		numLines = 0
@@ -132,9 +139,8 @@ class TestHandle(unittest.TestCase):
 			parser.printCoordinates.assert_not_called()
 
 	def test_handle_whenGivenMapWithExtraneousLines(self):
-		mapper = Mock()
-		mapper._client.sendall = Mock()
-		parser = LocateMapParser(mapper)
+		parser = self.parser
+		mapper = self.mapper
 		parser.parseLine = Mock()
 		parser.printCoordinates = Mock()
 
@@ -150,12 +156,9 @@ class TestHandle(unittest.TestCase):
 		parser.parseLine.assert_not_called()
 		parser.printCoordinates.assert_not_called()
 
-
-class testParseLine(unittest.TestCase):
-	def test_parseLine_callsSaveCordinatesForEachValidChar(self):
-		mapper = Mock()
-		mapper._client.sendall = Mock()
-		parser = LocateMapParser(mapper)
+	def test_parseLine_SavesCordinatesForEachValidChar(self):
+		parser = self.parser
+		mapper = self.mapper
 		parser.saveCoordinate = Mock()
 
 		parser.parseLine("|X-2=Q3?|", 5)
