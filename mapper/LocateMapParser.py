@@ -7,11 +7,20 @@ import re
 verticleBordersRegex = re.compile(r"\+-+\+")
 
 
+class Coordinate(object):
+	def __init__(self, char, x, y):
+		self.char = char
+		self.x = x
+		self.y = y
+
+
 class LocateMapParser(object):
 	def __init__(self, mapper):
 		self.mapper = mapper
 		self.mapper.registerMudEventHandler("line", self.handle)
 		self.isParsing = False
+		self.numLines = 0
+		self.coords = []
 
 	def handle(self, line):
 		"""handles input of type line
@@ -25,25 +34,30 @@ class LocateMapParser(object):
 				self.printCoordinates()
 			else:
 				self.isParsing = True
-				# re initialise the array of lines
+				self.numLines = 0
+				self.coords = []
 		elif self.isParsing:
 			if line.startswith("|") and line.endswith("|"):
-				self.parseLine(line)
+				self.parseLine(line, self.numLines)
+				self.numLines += 1
 			else:
 				self.mapper._client.sendall("Unrecognisable map line. Terminating parsing.")
 				self.isParsing = False
 
-	def parseLine(self, line):
+	def parseLine(self, line, y):
 		line = line[1:-1]
 		numChars = len(line)
 		for c in range(numChars):
 			char = line[c]
 			if char == "X" or char.isdigit():
-				self.saveCoordinate(char, c)
+				self.saveCoordinate(char, c, y)
 			elif char in "-=?":
 				pass
 			else:
 				self.mapper._client.sendall("Unrecognised char '%s'" % char)
+
+	def saveCoordinate(self, char, x, y):
+		self.coords.append(Coordinate(char, x, y))
 
 	def printCoordinates(self, line):
 		pass

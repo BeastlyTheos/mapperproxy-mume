@@ -77,6 +77,8 @@ class TestHandle(unittest.TestCase):
 		parser = LocateMapParser(Mock())
 		parser.parseLine = Mock()
 		parser.printCoordinates = Mock()
+		numLines = 0
+
 		for line in [
 			"+",
 			"++",
@@ -103,7 +105,8 @@ class TestHandle(unittest.TestCase):
 			"|  2 ---|",
 		]:
 			parser.handle(line)
-			parser.parseLine.assert_called_with(line)
+			parser.parseLine.assert_called_with(line, numLines)
+			numLines += 1
 			parser.printCoordinates.assert_not_called()
 
 		parser.handle("+---+")
@@ -155,13 +158,27 @@ class testParseLine(unittest.TestCase):
 		parser = LocateMapParser(mapper)
 		parser.saveCoordinate = Mock()
 
-		parser.parseLine("|X-2=Q3?|")
+		parser.parseLine("|X-2=Q3?|", 5)
 		self.assertEqual(
 			parser.saveCoordinate.mock_calls,
 			[
-				call("X", 0),
-				call("2", 2),
-				call("3", 5),
+				call("X", 0, 5),
+				call("2", 2, 5),
+				call("3", 5, 5),
 			]
 		)
 		mapper._client.sendall.assert_called_with("Unrecognised char 'Q'")
+
+		parser.saveCoordinate.reset_mock()
+
+		parser.parseLine("|??--=X-2--=3.X????|", 2)
+		self.assertEqual(
+			parser.saveCoordinate.mock_calls,
+			[
+				call("X", 5, 2),
+				call("2", 7, 2),
+				call("3", 11, 2),
+				call("X", 13, 2),
+			]
+		)
+		mapper._client.sendall.assert_called_with("Unrecognised char '.'")
