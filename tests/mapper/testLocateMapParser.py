@@ -77,7 +77,7 @@ class TestRegex(unittest.TestCase):
 class testLocateMapParser(unittest.TestCase):
 	def setUp(self):
 		self.mapper = Mock()
-		self.mapper._client.sendall = Mock()
+		self.mapper.clientSend = Mock()
 		self.parser = LocateMapParser(self.mapper)
 
 	def test_handle_whenGivenCompleteMap(self):
@@ -143,11 +143,12 @@ class testLocateMapParser(unittest.TestCase):
 		mapper = self.mapper
 		parser.parseLine = Mock()
 		parser.printCoordinates = Mock()
+		extraneousLine = "You sit down and rest your tired bones."
 
 		# check that the extraneous line gracefully fails
 		parser.handle("+---+")  # top border
-		parser.handle("You sit down and rest your tired bones.")  # not a recognised line of a map
-		mapper._client.sendall.assert_called_with("Unrecognisable map line. Terminating parsing.")
+		parser.handle(extraneousLine)
+		mapper.clientSend.assert_called_with("Unrecognisable map line. Terminating parsing.\r\n" + extraneousLine)
 		parser.parseLine.assert_not_called()
 		parser.printCoordinates.assert_not_called()
 
@@ -170,7 +171,7 @@ class testLocateMapParser(unittest.TestCase):
 				call("3", 5, 5),
 			]
 		)
-		mapper._client.sendall.assert_called_with("Unrecognised char 'Q'")
+		mapper.clientSend.assert_called_with("Unrecognised char 'Q'")
 
 		parser.saveCoordinate.reset_mock()
 
@@ -184,4 +185,37 @@ class testLocateMapParser(unittest.TestCase):
 				call("X", 13, 2),
 			]
 		)
-		mapper._client.sendall.assert_called_with("Unrecognised char '.'")
+		mapper.clientSend.assert_called_with("Unrecognised char '.'")
+
+	def test_printCoords_givenAFullMap(self):
+		parser = self.parser
+		output = self.mapper.clientSend
+		parser.numCols = 7
+		parser.numLines = 7
+
+		for char, x, y in [
+			("x", 2, 1),
+			("3", 6, 1),
+			("X", 3, 2),
+			("2", 0, 3),
+			("Z", 3, 3),
+			("X", 1, 5),
+			("Q", 4, 6),
+		]:
+			parser.saveCoordinate(char, x, y)
+
+		parser.normaliseCoordinates()
+		parser.printCoordinates()
+
+		for expectedCall in [
+			call("x 1 west 2 north"),
+			call("3 3 east 2 north"),
+			call("X 0  1 north"),
+			call("2 3 west 0 "),
+			call("Z 0  0 "),
+			call("X 2 west 2 south"),
+			call("Q 1 east 3 south"),
+		]:
+			self.assertIn(expectedCall, output.mock_calls)
+			output.mock_calls.remove(expectedCall)
+		self.assertFalse(output.mock_calls)
