@@ -4,26 +4,28 @@
 
 import re
 
+verticleBordersRegex = re.compile("\+-+\+")
+lineRegex = "\|?(?P<chars>[-?X]+)\|"
 
-class ArmouryPasswordDecoder(object):
+
+class LocateMapParser(object):
 	def __init__(self, mapper):
 		self.mapper = mapper
 		self.mapper.registerMudEventHandler("line", self.handle)
-		self.words = [[] for i in range(9)]
-		self.oldGuess = ""
 
 	# def handle(self, line):
 		# line is a starting line and is not reading
 			# is reading = true and re initialise the array of lines
 		# else if is reading
-			# if is map line
-				# store it
+			# if starts and ends with verticle bars ||
+				# call parse line
 			# if is ending line
 				# is reading = false
-				# do the parsing stuff
+				# print coordinates
 
 	# def parseLines
-		# for each line
-			# for each magic in the line
-				# store the x and y coordinates
-		# print all coordinates
+			# for each char in the line
+				# if else statements to handle the char
+				# if magic char, store coordinates
+				# if recognised non-magic char, skip
+				# else print a non-interuptive error

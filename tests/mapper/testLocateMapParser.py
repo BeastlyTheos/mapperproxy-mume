@@ -3,21 +3,74 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import unittest
-from unittest.mock import Mock
 
-# from mapper.LocateMapParser import LocateMapParser, lineRegex, verticleBordersRegex
-from mapper.mapper import Mapper
+from mapper.LocateMapParser import LocateMapParser, lineRegex, verticleBordersRegex
 
 
 class TestLocateMapParser_regex(unittest.TestCase):
-	def testlinesRegex(self):
+	def testLinesRegex(self):
 		for line in [
+			"+-----------------------------------+",
+			"+-----------------------------------+",
+			"+-----------------+",
+			"+-----------------+",
+			"+-----------------------------------+",
+			"+-------+",
 		]:
-			self.assertTrue(verticleBordersRegex.match(line), line + " does not match the regex for start and end lines.")
+			self.assertTrue(
+				verticleBordersRegex.match(line),
+				"'%s' does not match the regex for start and end lines." % line
+			)
 
 		for line in [
+			"|????????????????   ????????????????|",
+			"|????????????           ????????????|",
+			"|?????????                 ?????????|",
+			"|????????                   ????????|",
+			"|??????                       ??????|",
+			"|?????                         ?????|",
+			"|????                           ????|",
+			"|???                             ???|",
+			"|??                               ??|",
+			"|?                                 ?|",
+			"|                                   |",
+			"|       - ---     X ------  --------|",
+			"|     ----- ---   -------- --    ---|",
+			"|?--- -------   ==--------- - ---- ?|",
+			"|?-=- -- ----   ==-----------------?|",
+			"|?-------------------------  -- -  ?|",
+			"|?------------- - - ------   -- -  ?|",
+			"|??---------- --- - --------------??|",
+			"|??------------ ------------------??|",
+			"|??---- -          ------- ---- - ??|",
+			"|???-  --           --     - --  ???|",
+			"|???????   ???????|",
+			"|????         ????|",
+			"|???           ???|",
+			"|??             ??|",
+			"|?               ?|",
+			"|--     3 ------  |",
+			"| ---   -X------ -|",
+			"|--   ==--------- |",
+			"|?-   ==---------?|",
+			"|?---------------?|",
+			"|?--- - - ------ ?|",
+			"|?? --- - ------??|",
+			"|???- ---------???|",
+			"|????    -----????|",
+			"|???????  -???????|",
+			"|??   ??|",
+			"|?     ?|",
+			"|  2 ---|",
+			"|  -X---|",
+			"|==-----|",
+			"|?=----?|",
+			"|??---??|",
 		]:
-			self.assertFalse(verticleBordersRegex.match(line), line + " matches the regex for start and end lines.")
+			self.assertFalse(
+				verticleBordersRegex.match(line),
+				"'%s' matches the regex for start and end lines."
+			)
 
 	def testLineRegex(self):
 		for line in [
