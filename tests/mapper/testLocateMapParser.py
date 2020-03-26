@@ -3,12 +3,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import unittest
+from unittest.mock import Mock
 
-from mapper.LocateMapParser import LocateMapParser, lineRegex, verticleBordersRegex
+from mapper.LocateMapParser import LocateMapParser, verticleBordersRegex
 
 
-class TestLocateMapParser_regex(unittest.TestCase):
-	def testLinesRegex(self):
+class TestRegex(unittest.TestCase):
+	def test_verticleBordersRegex(self):
 		for line in [
 			"+-----------------------------------+",
 			"+-----------------------------------+",
@@ -72,11 +73,23 @@ class TestLocateMapParser_regex(unittest.TestCase):
 				"'%s' matches the regex for start and end lines."
 			)
 
-	def testLineRegex(self):
+	def test_handle_doesNotHandleLines_whenTopBorderHasNotBeenSeen(self):
+		parser = LocateMapParser(Mock())
+		parser.parseLine = Mock()
+		parser.printCoordinates = Mock()
 		for line in [
+			"+",
+			"++",
+			"| ---   -X------ -|",
+			"Mana:Cold>",
+			"A hobbit has arrived from the south.",
+			"You sit down and rest your tired bones.",
+			"cast 'locate magic' good 16",
+			"Traces of white tones form the aura of this place.",
+			"|--   ==--------- |",
+			"|??             ??|",
+			"|  2 ---|",
 		]:
-			self.assertTrue(verticleRegex.match(line), line + " does not match the regex for map lines.")
-
-		for line in [
-		]:
-			self.assertFalse(lineRegex.match(line), line + " matches the regex for map lines.")
+			parser.handle(line)
+			parser.parseLine.assert_not_called()
+			parser.printCoordinates.assert_not_called()
