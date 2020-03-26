@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import unittest
-from unittest.mock import Mock
+from unittest.mock import call, Mock
 
 from mapper.LocateMapParser import LocateMapParser, verticleBordersRegex
 
@@ -146,3 +146,22 @@ class TestHandle(unittest.TestCase):
 		parser.handle("| ---   -X------ -|")  # recognisable line of a map
 		parser.parseLine.assert_not_called()
 		parser.printCoordinates.assert_not_called()
+
+
+class testParseLine(unittest.TestCase):
+	def test_parseLine_callsSaveCordinatesForEachValidChar(self):
+		mapper = Mock()
+		mapper._client.sendall = Mock()
+		parser = LocateMapParser(mapper)
+		parser.saveCoordinate = Mock()
+
+		parser.parseLine("|X-2=Q3?|")
+		self.assertEqual(
+			parser.saveCoordinate.mock_calls,
+			[
+				call("X", 0),
+				call("2", 2),
+				call("3", 5),
+			]
+		)
+		mapper._client.sendall.assert_called_with("Unrecognised char 'Q'")

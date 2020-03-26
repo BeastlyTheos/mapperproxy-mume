@@ -34,12 +34,16 @@ class LocateMapParser(object):
 				self.isParsing = False
 
 	def parseLine(self, line):
-		pass
-			# for each char in the line
-				# if else statements to handle the char
-				# if magic char, store coordinates
-				# if recognised non-magic char, skip
-				# else print a non-interuptive error
+		line = line[1:-1]
+		numChars = len(line)
+		for c in range(numChars):
+			char = line[c]
+			if char == "X" or char.isdigit():
+				self.saveCoordinate(char, c)
+			elif char in "-=?":
+				pass
+			else:
+				self.mapper._client.sendall("Unrecognised char '%s'" % char)
 
 	def printCoordinates(self, line):
 		pass
