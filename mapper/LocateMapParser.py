@@ -11,25 +11,27 @@ class LocateMapParser(object):
 	def __init__(self, mapper):
 		self.mapper = mapper
 		self.mapper.registerMudEventHandler("line", self.handle)
-		self.isReadingMap = False
+		self.isParsing = False
 
 	def handle(self, line):
 		"""handles input of type line
 		if has seen top border and line is not a border, parses the line into coordinates and stores them
 		if reading a map and line is a border, sets reading flag to false and prints all coordinates
 		"""
-		pass
-		# line starts with +, ends with +, and other chars are -. is a starting line and is not reading
-			# is reading = true and re initialise the array of lines
-		# else if is reading
-			# if starts and ends with verticle bars ||
-				# call parse line
-			# if is ending line
+		if line.startswith("+") and line.endswith("+") and verticleBordersRegex.match(line):
+			# using startswith and endswith minimises the number of calls to regex
+			if self.isParsing:
+				pass  # bottom border of map
 				# is reading = false
 				# print coordinates
-			# else
-				# error about unrecognised map line
-				# set isReading to false
+			else:
+				self.isParsing = True
+				# re initialise the array of lines
+		elif self.isParsing:
+			if line.startswith("|") and line.endswith("|"):
+				self.parseLine(line)
+			else:
+				pass  # error invalid line, and in case was not even supposed to be parsing, set flag to false
 
 	def parseLine(self, line):
 		pass

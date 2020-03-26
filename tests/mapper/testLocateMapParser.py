@@ -73,7 +73,7 @@ class TestRegex(unittest.TestCase):
 				"'%s' matches the regex for start and end lines."
 			)
 
-	def test_handle_doesNotHandleLines_whenTopBorderHasNotBeenSeen(self):
+	def test_handle_whenGivenCompleteMap(self):
 		parser = LocateMapParser(Mock())
 		parser.parseLine = Mock()
 		parser.printCoordinates = Mock()
@@ -92,4 +92,15 @@ class TestRegex(unittest.TestCase):
 		]:
 			parser.handle(line)
 			parser.parseLine.assert_not_called()
+			parser.printCoordinates.assert_not_called()
+
+		parser.handle("+---+")
+		for line in [
+			"| ---   -X------ -|",
+			"|--   ==--------- |",
+			"|??             ??|",
+			"|  2 ---|",
+		]:
+			parser.handle(line)
+			parser.parseLine.assert_called_with(line)
 			parser.printCoordinates.assert_not_called()
