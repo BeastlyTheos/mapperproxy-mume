@@ -23,7 +23,7 @@ class ArmouryPasswordDecoder(object):
 			if m:
 				self.decodePassword(m.group("password"))
 			else:
-				self.mapper._client.sendall(
+				self.mapper.clientSend(
 					"Error in armoury password decoder: cannot parse a password from preceding line."
 				)
 
@@ -32,13 +32,13 @@ class ArmouryPasswordDecoder(object):
 			self.words[i].append(word[i])
 		guess_asList = [mode(i) for i in self.words]
 		guess = "".join(guess_asList)
-		self.mapper._client.sendall("guess is " + guess)
+		self.mapper.clientSend("guess is " + guess)
 		# print("guess is " + guess)
 		if self.oldGuess:
 			identicalLetters = 0
 			for i in range(9):
 				if guess[i] == self.oldGuess[i]:
 					identicalLetters += 1
-			self.mapper._client.sendall("This has %d letters in common with the last guess." % identicalLetters)
+			self.mapper.clientSend("This has %d letters in common with the last guess." % identicalLetters)
 			# print("This has %d letters in common with the last guess." % identicalLetters)
 		self.oldGuess = guess

@@ -27,11 +27,11 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 
 	def setUp(self):
 		cls = TestArmouryPasswordDecoder
-		cls.mapper._client.sendall = Mock()
+		cls.mapper.clientSend = Mock()
 		self.decoder = ArmouryPasswordDecoder(cls.mapper)
 
 	def testNothingHappensWhenReceivingIrrelevantLines(self):
-		sendall = self.mapper._client.sendall
+		sendall = self.mapper.clientSend
 		decoder = self.decoder
 
 		decoder.decodePassword = Mock()
@@ -72,7 +72,7 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			decoder.decodePassword.assert_not_called()
 
 	def testErrorIsSentToClientWhenLineHasInvalidPassword(self):
-		sendall = self.mapper._client.sendall
+		sendall = self.mapper.clientSend
 		decoder = self.decoder
 
 		decoder.decodePassword = Mock()
@@ -94,7 +94,7 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			)
 
 	def test_decodePassword_isCalledWhenReceivingLineWithAValidPassword(self):
-		sendall = self.mapper._client.sendall
+		sendall = self.mapper.clientSend
 		decoder = self.decoder
 
 		decoder.decodePassword = Mock()
@@ -137,44 +137,3 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			
 			sendall.assert_not_called()
 			decoder.decodePassword.assert_called_with(line[len(startOfPasswordLine):])
-
-	def test_print_isCalledWhenReceivingLineWithAValidPassword(self):
-		self.mapper._client.sendall = Mock()
-		sendall = self.mapper._client.sendall
-		decoder = self.decoder
-
-		for line in [
-			"rtkabmsuk",
-			"jndaJwsdk",
-			"sekrgfrag",
-			"zmlrfrwol",
-			"zajrpsjef",
-			"fadmmrztr",
-			"maftvmnua",
-			"zjgoelnda",
-			"norlamznz",
-			"vajranmre",
-			"hhdbafrgo",
-			"zusuofnep",
-			"sadndfnds",
-			"zJfrazskg",
-			"hlkaashhe",
-			"fskulmvgl",
-			"sbzrawlba",
-			"rhmtpmnfb",
-			"hsLeasveJ",
-			"mkdramzkr",
-			"fekpunnaa",
-			"nadjehmau",
-			"zgdramrJa",
-			"hjnrkfrun",
-			"sjzaafhuu",
-			"wkjhussad",
-			"satoemwaL",
-			"zadaarJkb",
-			"rkdtmmmul",
-			"szladmzag",
-			"medaesruz",
-		]:
-			decoder.decodePassword(line)
-			#print(decoder.mapper._client.sendall.call_args)
