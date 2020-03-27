@@ -14,8 +14,8 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 	def setUpClass(cls):
 		Mapper.loadRooms = Mock()  # to speed execution of tests
 		cls.mapper = Mapper(
-			client=Mock(),
-			server=None,
+			playerSocket=Mock(),
+			gameSocket=Mock(),
 			outputFormat=None,
 			interface="text",
 			promptTerminator=None,

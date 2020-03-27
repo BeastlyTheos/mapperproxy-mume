@@ -25,6 +25,10 @@ from .roomdata.objects import DIRECTIONS, REVERSE_DIRECTIONS, Room
 from .utils import decodeBytes, escapeIAC, escapeXMLString, formatDocString, regexFuzzy, simplified, stripAnsi
 from .world import LIGHT_SYMBOLS, RUN_DESTINATION_REGEX, TERRAIN_SYMBOLS, World
 
+# plugins
+from .ArmouryPasswordDecoder import ArmouryPasswordDecoder
+from .LocateMapParser import LocateMapParser
+
 
 EXIT_TAGS_REGEX = re.compile(
 	r"(?P<door>[\(\[\#]?)(?P<road>[=-]?)(?P<climb>[/\\]?)(?P<portal>[\{]?)"
@@ -162,7 +166,9 @@ class Mapper(threading.Thread, World):
 		]:
 			self.registerMudEventHandler(legacyHandler, getattr(self, "mud_event_" + legacyHandler))
 		self.unknownMudEvents = []
+		ArmouryPasswordDecoder(self)
 		ExitsCleaner(self, "exits")
+		LocateMapParser(self)
 		self.emulationCommands = [
 			func[len("emulation_command_") :]
 			for func in dir(self)
