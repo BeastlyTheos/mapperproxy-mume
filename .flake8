@@ -34,6 +34,9 @@ ignore =
 exclude =
 	.git,
 	__pycache__,
+	env/
+	maps/
+	*.spec
 
 filename =
 	*.py,
