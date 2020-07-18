@@ -6,7 +6,7 @@ import re
 from statistics import mode
 
 startOfPasswordLine = "Barely visible in a corner of the page is the strange word: "
-passwordRegex = "(?P<password>[A-Za-z]{9})"
+passwordRegex = "(?P<password>[A-Za-z]{9,12})"
 lineRegex = re.compile("^" + startOfPasswordLine + passwordRegex + "$")
 
 

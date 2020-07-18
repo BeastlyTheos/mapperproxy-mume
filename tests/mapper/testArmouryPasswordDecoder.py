@@ -5,7 +5,7 @@
 import unittest
 from unittest.mock import Mock
 
-from mapper.ArmouryPasswordDecoder import ArmouryPasswordDecoder, lineRegex, startOfPasswordLine
+from mapper.ArmouryPasswordDecoder import ArmouryPasswordDecoder, lineRegex
 from mapper.mapper import Mapper
 
 
@@ -80,7 +80,6 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 		for line in [
 			"Barely visible in a corner of the page is the strange word: ",
 			"Barely visible in a corner of the page is the strange word: rtkauk",
-			"Barely visible in a corner of the page is the strange word: jndaJwsdkh",
 			"Barely visible in a corner of the page is the strange word: jnda3sdkh",
 			"Barely visible in a corner of the page is the strange word: sekrgfrag8",
 			"Barely visible in a corner of the page is the strange word: 9zmlrfrwol",
@@ -96,8 +95,7 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 	def test_decodePassword_isCalledWhenReceivingLineWithAValidPassword(self):
 		sendall = self.mapper.clientSend
 		decoder = self.decoder
-
-		decoder.decodePassword = Mock()
+		testingInitialLine = True
 
 		for line in [
 			"Barely visible in a corner of the page is the strange word: rtkabmsuk",
@@ -131,9 +129,69 @@ class TestArmouryPasswordDecoder(unittest.TestCase):
 			"Barely visible in a corner of the page is the strange word: rkdtmmmul",
 			"Barely visible in a corner of the page is the strange word: szladmzag",
 			"Barely visible in a corner of the page is the strange word: medaesruz",
+			"Barely visible in a corner of the page is the strange word: nijjetwbij",
+			"Barely visible in a corner of the page is the strange word: nijjetwbij",
+			"Barely visible in a corner of the page is the strange word: kigJgavgij",
+			"Barely visible in a corner of the page is the strange word: kigJgavgij",
+			"Barely visible in a corner of the page is the strange word: miggjazlij",
+			"Barely visible in a corner of the page is the strange word: miggjazlij",
+			"Barely visible in a corner of the page is the strange word: higntewhil",
+			"Barely visible in a corner of the page is the strange word: higntewhil",
+			"Barely visible in a corner of the page is the strange word: gilbaorbig",
+			"Barely visible in a corner of the page is the strange word: gilbaorbig",
+			"Barely visible in a corner of the page is the strange word: sijbpgzkil",
+			"Barely visible in a corner of the page is the strange word: sijbpgzkil",
+			"Barely visible in a corner of the page is the strange word: liJfeuglig",
+			"Barely visible in a corner of the page is the strange word: liJfeuglig",
+			"Barely visible in a corner of the page is the strange word: Lilhpufsig",
+			"Barely visible in a corner of the page is the strange word: Lilhpufsig",
+			"Barely visible in a corner of the page is the strange word: piLgupftil",
+			"Barely visible in a corner of the page is the strange word: piLgupftil",
+			"Barely visible in a corner of the page is the strange word: ziLjadrvig",
+			"Barely visible in a corner of the page is the strange word: ziLjadrvig",
+			"Barely visible in a corner of the page is the strange word: jiLsoargig",
+			"Barely visible in a corner of the page is the strange word: jiLsoargig",
+			"Barely visible in a corner of the page is the strange word: gilgttzkiJ",
+			"Barely visible in a corner of the page is the strange word: gilgttzkiJ",
+			"Barely visible in a corner of the page is the strange word: lildggspij",
+			"Barely visible in a corner of the page is the strange word: lildggspij",
+			"Barely visible in a corner of the page is the strange word: Lilhpufsig",
+			"Barely visible in a corner of the page is the strange word: Lilhpufsig",
+			"Barely visible in a corner of the page is the strange word: piLgupftil",
+			"Barely visible in a corner of the page is the strange word: piLgupftil",
+			"Barely visible in a corner of the page is the strange word: ziLjadrvig",
+			"Barely visible in a corner of the page is the strange word: ziLjadrvig",
+			"Barely visible in a corner of the page is the strange word: jiLsoargig",
+			"Barely visible in a corner of the page is the strange word: jiLsoargig",
+			"Barely visible in a corner of the page is the strange word: gilgttzkiJ",
+			"Barely visible in a corner of the page is the strange word: gilgttzkiJ",
+			"Barely visible in a corner of the page is the strange word: lildggspij",
+			"Barely visible in a corner of the page is the strange word: lildggspij",
+			"Barely visible in a corner of the page is the strange word: bigtplnrij",
+			"Barely visible in a corner of the page is the strange word: bigtplnrij",
+			"Barely visible in a corner of the page is the strange word: tiLzakfgil",
+			"Barely visible in a corner of the page is the strange word: tiLzakfgil",
 		]:
+			expectedNumberOfCalls = 1 if testingInitialLine else 2
 			self.assertTrue(lineRegex.search(line), "'%s' is a bad test line. It should match the regex" % line)
+			
 			decoder.handle(line)
 			
-			sendall.assert_not_called()
-			decoder.decodePassword.assert_called_with(line[len(startOfPasswordLine):])
+			calls = [c.args[0] for c in sendall.mock_calls]
+			self.assertEqual(
+				len(calls), expectedNumberOfCalls,
+				f"sendall was called with fewer than {expectedNumberOfCalls} arguments, which are {calls=}"
+			)
+			self.assertTrue(calls[0].startswith("guess is "), f"{calls[0]=} does not start with 'guess is '")
+			if expectedNumberOfCalls == 2:
+				self.assertTrue(
+					calls[1].startswith("This has "),
+					f"{calls[1]=} does not start with 'This has '"
+				)
+				self.assertTrue(
+					calls[1].endswith(" with the last guess."),
+					f"{calls[1]=} does not end with ' with the last guess.'"
+				)
+
+			sendall.reset_mock()
+			testingInitialLine = False
