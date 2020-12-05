@@ -126,6 +126,11 @@ class Game(threading.Thread):
 			try:
 				data = self.game.recv(4096)
 				if data:
+					if b"<BLUE>" in data and b"><NORMAL>" not in data:
+						print("sanitising " + str(data))
+						pos = data.index(b"<BLUE>")
+						data = data[:pos] + data[pos + 6:]
+						print("altered to " + str(data))
 					self.mapper.proxy.game.parse(data)
 				else:
 					self.close()
